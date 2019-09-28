@@ -117,14 +117,14 @@ ejectModel.eliminaNotifica = (env,callback) =>
     if(err){throw err}
     else
     {
-        // console.log(rowph);
+        console.log(rowph);
         // console.log('enviando e-mail');
         // console.log('/////////////////////*******************//////////////////');
         rowph = rowph[0];
         // console.log('cDN3ljN80nY:APA91bE23ly2oG-rzVAI8i_oiPMZI_CBdU59a6dVznyjdK9FyGi2oPI_sQIQJTAV-xp6YQ6F7MlYYW_7Br0nGdbTIuicwIP4oR99Mf8KysM1ZEJiCmASeyxnOHO4ajgqTDIX6prWpQpG');
-        // console.log('ROW DE LA BASE DE DATOS');
+        console.log('ROW DE LA BASE DE DATOS');
         console.log(rowph);
-        if(rowph.tokenpsh!='')
+        if(rowph.tokenpsh!='not')
         {
         var disp = {
           to:rowph.tokenpsh,
@@ -139,7 +139,9 @@ ejectModel.eliminaNotifica = (env,callback) =>
         callback(null,{'borrado':true});
       });
             }
-
+              else {
+                callback(null,{'borrado':true});
+              }
     }
   });
 };
