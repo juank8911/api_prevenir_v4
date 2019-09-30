@@ -111,7 +111,7 @@ var fecha2 = moment('2018-11-12');  //fecha actual
 
 ejectModel.eliminaNotifica = (env,callback) =>
 {
-  // console.log(env);
+  console.log(env);
   // sleep(5000);
   connection.query(env.sql,[env.id],(err,rowph)=>{
     if(err){throw err}
