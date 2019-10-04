@@ -276,13 +276,13 @@ if(masc == true || masc == 'true' )
 {
   var valida = 'SELECT start FROM events_masc WHERE id_eventos = ?';
   var del = ' DELETE FROM events_masc where id_eventos = ?';
-  var psh ='SELECT members.tokenpsh, servicios.nombre, events_masc.start FROM members, provedores, servicios, events_masc WHERE members.id = provedores.members_id AND servicios.id_provedores = provedores.id_provedor AND events_masc.id_servicios = servicios.id_servicios AND events_masc.id_eventos = ?;';
+  var psh = 'SELECT events_mas.start, members.tokenpsh, servicios.nombre FROM events_mas,usuarios,members, consultorio,servicios WHERE events_mas.usuarios_id = usuarios.id AND usuarios.members_id = members.id AND events_mas.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND events_mas.id_eventos = ?;';
 }
 else
 {
 var valida = 'SELECT start FROM events WHERE id_eventos = ?';
 var del = ' DELETE FROM events where id_eventos = ?';
-var psh = 'SELECT members.tokenpsh, servicios.nombre, events.start FROM members, provedores, servicios, events WHERE members.id = provedores.members_id AND servicios.id_provedores = provedores.id_provedor AND events.servicios_idservicios = servicios.id_servicios AND events.id_eventos = ?;';
+var psh = 'SELECT events.start, members.tokenpsh, servicios.nombre FROM events,usuarios,members, consultorio,servicios WHERE events.usuarios_id = usuarios.id AND usuarios.members_id = members.id AND events.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND events.id_eventos = ?;';
 }
 connection.query(valida,id,(err,resp)=>
 {

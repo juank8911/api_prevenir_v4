@@ -1,7 +1,8 @@
 const mysql = require('mysql');
 let config = require('../config');
 let moment = require('moment');
-let pushs = require('./push')
+let pushs = require('./push');
+let pushos = require('./pushOs');
 var sleep = require('system-sleep');
 let ciclo = require('../controler/ciclos')
 let email = require('./email');
@@ -124,15 +125,25 @@ ejectModel.eliminaNotifica = (env,callback) =>
         // console.log('cDN3ljN80nY:APA91bE23ly2oG-rzVAI8i_oiPMZI_CBdU59a6dVznyjdK9FyGi2oPI_sQIQJTAV-xp6YQ6F7MlYYW_7Br0nGdbTIuicwIP4oR99Mf8KysM1ZEJiCmASeyxnOHO4ajgqTDIX6prWpQpG');
         console.log('ROW DE LA BASE DE DATOS');
         console.log(rowph);
+        console.log(rowph.tokenpsh);
         if(rowph.tokenpsh!='not')
         {
+          var notification = {
+              contents: {
+                  en: "Test notification",
+                  es: 'Su cita de '+rowph.nombre+', separada para el dia: '+moment(rowph.start).format('DD-MM-YYYY')+' a las: '+moment(rowph.start).format('HH:mm a')+' fue cancelada por inconvenientes ajenos a nostros por favor revisa tus citas',
+              },
+              headings : { es: 'CITA CANCELADA', en: 'dont not'},
+              include_player_ids: [rowph.tokenpsh]
+          };
+
         var disp = {
-          to:rowph.tokenpsh,
-          body:'Su cita de '+rowph.nombre+', separada para el dia: '+moment(rowph.start).format('DD-MM-YYYY')+' a las: '+moment(rowph.start).format('HH:mm a')+' fue cancelada por inconvenientes ajenos a nostros por favor revisa tus citas',
-          title:'CITA CANCELADA'
+          push:rowph.tokenpsh,
+          enc:'Su cita de '+rowph.nombre+', separada para el dia: '+moment(rowph.start).format('DD-MM-YYYY')+' a las: '+moment(rowph.start).format('HH:mm a')+' fue cancelada por inconvenientes ajenos a nostros por favor revisa tus citas',
+          enh:'CITA CANCELADA'
         };
         // console.log(disp);
-      pushs.sendPush(disp,(err,respus)=>{
+      pushos.sendPush(notification,(err,respus)=>{
         //
         // console.log(respus);
         // console.log('enviando respuesta');

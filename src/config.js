@@ -19,5 +19,9 @@ module.exports= {
   userMail: 'correos@contacto-prevenir.iam.gserviceaccount.com',
   passMail: 'Contactop1321',
   from: 'remitenteEnvio <Contactop1321>',
-  host: 'smtp.gmail.com'
+  host: 'smtp.gmail.com',
+  //onesignal
+  AuthKey: 'YWI5MThkYmUtZDVjMi00OGU1LWFiMTctMzA0YjdkYWYyOWNh', 
+  appId: 'e9b74f6d-cd17-4223-ab73-3b355bbf98ce'
+
 };

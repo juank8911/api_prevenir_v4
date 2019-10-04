@@ -12,23 +12,17 @@ database: config.nombredb
 let pushoModule = {};
 
 
-pushoModule.sendPush = (callback) => {
+pushoModule.sendPush = (info,callback) => {
 
   console.log('creando cliente');
   var myClient = new OneSignal.Client({
     userAuthKey: 'XXXXXX',
-    app: { appAuthKey: 'YWI5MThkYmUtZDVjMi00OGU1LWFiMTctMzA0YjdkYWYyOWNh', appId: 'e9b74f6d-cd17-4223-ab73-3b355bbf98ce' }
+    app: { appAuthKey: config.AuthKey, appId: config.appId }
 });
 
+console.log(info);
 console.log('creando notificacion');
-var firstNotification = new OneSignal.Notification({
-    contents: {
-        en: "Test notification",
-        tr: "Test mesajı",
-        es: "Es hora de FREE FIRE"
-    },
-    include_player_ids: ["b50c7a67-a03d-4349-bf52-209e28de83e4"]
-});
+var firstNotification = new OneSignal.Notification(info);
 
 // Add a new target after creating initial notification body
 // firstNotification.postBody["include_player_ids"].push["3aa608f2-c6a1-11e3-851d-000c2940e62c"]
