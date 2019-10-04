@@ -27,6 +27,7 @@
     "node-cron": "^2.0.3",
     "nodemailer": "^4.7.0",
     "nodemailer-smtp-transport": "^2.7.4",
+    "onesignal-node": "^2.1.1",
     "random-letter": "^1.0.1",
     "random-number": "0.0.9",
     "sync-mysql": "^3.0.1",

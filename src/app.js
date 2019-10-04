@@ -150,6 +150,7 @@ require('./routes/mascRoutes')(app);
 require('./routes/opticaRoutes')(app);
 require('./routes/sucurRoutes')(app);
 require('./routes/consultRoutes')(app);
+
 // require('./routes/eventsMascRoutes')(apps);
 //app.use(rutas);
 

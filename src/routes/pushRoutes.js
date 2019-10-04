@@ -1,5 +1,6 @@
 const push = require('../models/push');
 const jwts = require('../models/jwt');
+const pusho = require('../models/pushOs')
 
 module.exports=function(app)
 {
@@ -30,6 +31,12 @@ app.post('/push',(req,res)=>{
   };
   push.sendPush(disp,(err,resp)=>{res.json(resp)})
 });
+
+app.post('/pusho',(req,res)=>{
+  pusho.sendPush((err,resp)=>{
+    res.json(resp);
+  })
+})
 
 
 }
