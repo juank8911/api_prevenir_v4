@@ -381,12 +381,13 @@ servmodule.darServiciosMunCat = (ids,callback)=>{
 //console.log('////////////////Servicios ')
 var idm = ids.idm;
 var idc = ids.idc;
-// console.log(idc);
+console.log('ID DE CATEGORIAS');
+console.log(idm);
 if(connection)
 {
-if(idm==0)
+if(idc==0 || idc=='0')
 {
-// console.log('////////////////Servicios por muunicipios/////////// ')
+console.log('////////////////Servicios por muunicipios/////////// ')
 
 if(idc!=20)
 {
