@@ -28,8 +28,8 @@ res.json(data);
 app.post('/citai',jwt.validaAdmin,(req,res)=>{
   // console.log(req.body);
   let cita = req.body;
-  // console.log('NUEVA CITA INTERNA *********');
-  // console.log(cita);
+  console.log('NUEVA CITA INTERNA *********');
+  console.log(cita);
   let masc = req.body.mascota;
   if(masc==true)
   {
