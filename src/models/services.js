@@ -387,7 +387,7 @@ if(connection)
 {
 if(idc==0 || idc=='0')
 {
-console.log('////////////////Servicios por muunicipios/////////// ')
+// console.log('////////////////Servicios por muunicipios/////////// ')
 
 if(idc!=20)
 {
@@ -410,8 +410,8 @@ throw err
 }
 else
 {
-  console.log('row cargado');
-console.log(row);
+  // console.log('row cargado');
+// console.log(row);
 if (JSON.stringify(row)!='[]')
 {
 var p =1;
@@ -471,7 +471,7 @@ else
 {
   if(idc!=20)
   {
-    console.log('CARGANDO DIFERNTE DE 20 ');
+    // console.log('CARGANDO DIFERNTE DE 20 ');
     var sql = 'SELECT servicios.*, categoria.nombre as categoria, categoria.id_categoria as id_categoria FROM servicios, servicios_categoria, categoria, consultorio, sucursales WHERE servicios.id_servicios = servicios_categoria.servicios_idservicios AND servicios_categoria.categoria_idcategoria = categoria.id_categoria  AND servicios.id_servicios = consultorio.id_servicios AND consultorio.id_sucursales = sucursales.id_sucursales AND sucursales.id_municipio = ? AND categoria.id_categoria = ? AND categoria_idcategoria != 20 AND servicios.eliminado = 0 AND consultorio.eliminado = 0 GROUP BY servicios.id_servicios;';
     var sel = 'SELECT comentarios.*,usuarios.avatar, CONCAT(usuarios.nombre," ",usuarios.apellidos) as nombre FROM comentarios, consultorio, usuarios WHERE comentarios.id_consultorio = consultorio.id_consultorio AND comentarios.usuarios_id = usuarios.id ORDER BY comentarios.createdAt asc LIMIT 3;';
   }
