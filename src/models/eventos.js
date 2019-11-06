@@ -70,7 +70,7 @@ eventmodule.darEventsBenf = (id,callback)=>{
   if(connection)
   {
     //console.lo.log(id);
-    var sql = "SELECT events.*, servicios.nombre as servicio, sucursales.nombre as sucursal, sucursales.direccion as direccion, CONCAT(usuarios.nombre,' ',usuarios.apellidos) as nombreU FROM events, servicios, sucursales, consultorio, usuarios WHERE events.id_consultorio = consultorio.id_consultorio AND servicios.id_servicios = consultorio.id_servicios AND consultorio.id_sucursales = sucursales.id_sucursales AND events.usuarios_id = usuarios.id AND usuarios.usuariosBf_id = ?;"
+    var sql = "SELECT events.*, servicios.nombre as servicio, servicios.id_servicios , sucursales.nombre as sucursal, sucursales.direccion as direccion, CONCAT(usuarios.nombre,' ',usuarios.apellidos) as nombreU FROM events, servicios, sucursales, consultorio, usuarios WHERE events.id_consultorio = consultorio.id_consultorio AND servicios.id_servicios = consultorio.id_servicios AND consultorio.id_sucursales = sucursales.id_sucursales AND events.usuarios_id = usuarios.id AND usuarios.usuariosBf_id = ?;"
     connection.query(sql,[id],(err,row)=>{
       if(err)
       {
@@ -95,7 +95,7 @@ eventmodule.darEventsMasc = (id,callback)=>{
   if(connection)
   {
     //console.lo.log(id);
-    var sql = 'SELECT events_masc.*, servicios.nombre as servicio, sucursales.nombre as sucursal, mascotas.nombre as nombreU FROM events_masc, servicios, sucursales, mascotas, consultorio WHERE events_masc.id_consultorio = consultorio.id_consultorio AND servicios.id_servicios = consultorio.id_servicios AND sucursales.id_sucursales = consultorio.id_sucursales AND events_masc.id_mascotas = mascotas.id_mascotas AND mascotas.id_usuarios = ?;';
+    var sql = 'SELECT events_masc.*, servicios.nombre as servicio, servicios.id_servicios, sucursales.nombre as sucursal, mascotas.nombre as nombreU FROM events_masc, servicios, sucursales, mascotas, consultorio WHERE events_masc.id_consultorio = consultorio.id_consultorio AND servicios.id_servicios = consultorio.id_servicios AND sucursales.id_sucursales = consultorio.id_sucursales AND events_masc.id_mascotas = mascotas.id_mascotas AND mascotas.id_usuarios = ?;';
     connection.query(sql,[id],(err,row)=>{
       if(err)
       {

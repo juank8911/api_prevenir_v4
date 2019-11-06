@@ -50,6 +50,14 @@ res.json(data);
 });
 
 
+app.post('/fotosp',(req,res)=>{
+    let foto = req.body;
+    fotos.fotoPagina(foto,(err,rfotos)=>{
+        res.json(rfotos);
+    })
+});
+
+
 app.get('/fotosser/:id',(req,res)=>{
   let id = req.params.id;
   fotos.darFotosServ(id,(err,data)=>{res.json(data)});

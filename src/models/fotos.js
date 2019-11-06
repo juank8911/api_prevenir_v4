@@ -138,6 +138,52 @@ fotoModel.fotosSer = (foto,callback) =>{
 
 };
 
+fotoModel.fotoPagina = (fotos,callback) => {
+  if(connection)
+  {
+    let p =0;
+    let res = [];
+    if(fotos.length >=1)
+    {
+        for (var i = 0; i < fotos.length; i++) {
+          let foto = fotos[i];
+          var options = {
+          min:  000000001
+          , max:  9999999999
+          , integer: true
+          }
+          var rand = rn(options);
+          var rand1 = rn(options);
+          var rand2 = rn(options);
+          var rand3 = rn(options);
+          var name = rand1+'_'+rand2+'_'+rand3;
+
+          var newPath = "src/public/fotos/"+name;
+          var pathView = "/fotos/"+name;
+          ba64.writeImageSync(newPath, foto.foto);
+          if(!fs.existsSync(newPath))
+          {
+          var sql = 'INSERT INTO `prevenirexpres`.`fotosp` (ruta, dominio, foto_cate_id_fotoc) VALUES (?, ?, ?);'
+          connection.query(sql,[pathView+'.jpeg',foto.dominio,foto.id],(err,row)=>{
+          if(err){throw err}
+          else {
+              res.push({'agregada':true, 'id': row.insertId});
+          if(p>=i)
+              {
+                callback(null,res);
+              }
+              p++;
+          }
+          });
+          }
+
+        }
+
+    }
+  }
+
+};
+
 
 fotoModel.darFotosServ = (id,callback)=>{
   if(connection)

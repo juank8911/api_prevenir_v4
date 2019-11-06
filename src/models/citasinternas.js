@@ -144,9 +144,6 @@ citasIModule.nuevaCita = (cita,callback)=>{
                           id:row.insertId
                           }
                           cita.id = usu.id;
-                          // console.log('guhg bhjbjhg guiy guygo uyg uyg ouyg yiug uig uig iugiu gui giuyg ');
-                          // console.log(cita.id);
-                          // console.log(usu.id);
                           email.BienvenidoBlock(usu,(err,ressp)=>{
                             if(ressp==true)
                                 {
@@ -154,103 +151,104 @@ citasIModule.nuevaCita = (cita,callback)=>{
                                 let valido = {mensaje:'Usuario registrado con exito',existe:'false',ids:row.insertId};
                                 // console.log('agregado');
                               }
+
+                                            // console.log(ids);
+                                          let ins = 'INSERT INTO usuarios ( tipoDocumento,cedula, correo,nombre, apellidos,direccion, telefono, fecha_nacimiento,estadoCivil,ocupacion,barrio,eps,members_id, parentescos_id_parentescos, id_pais) VALUES ( ?,?, ?,?, ?,?, ?, ?, ?, ?,?,?,?,?,?);'
+                                          connection.query(ins,[cita.tipoDocumento,cita.usuario,cita.correo,cita.nombres,cita.apellidos,cita.direccion,cita.contacto,cita.fecha_nacimiento,cita.estadoCivil,cita.ocupacion,cita.barrio,cita.eps,id,17,47],(err,insert)=>{
+                                            // console.log(insert);
+                                            if(err){throw err;}
+                                            else
+                                            {
+                                              // console.log(cita);
+                                              // console.log('/*/*/*/*/*/*AQUI YA AGREGO AL USUSARIO');
+
+                                              // console.log(insert);
+                                              var Mend = parseInt(00);
+                                              var hinicio = moment(cita.start).format('HH:mm:ss');
+                                              var Finicio = moment(cita.start).format('YYYY-MM-DD');
+                                              var horas = hinicio.split(":");
+                                              var mins = horas[1];
+                                              var hora = horas[0];
+                                              hora = parseInt(hora);
+                                              mins = parseInt(mins);
+                                              minsEnd = mins+Mend;
+                                              hora = hora;
+                                              var Hstart = hora+":"+"00"+":00";
+                                              var Hend = hora+1+":"+"00"+":00";
+                                              var starts = Finicio+" "+Hstart;
+                                              var ends = Finicio+" "+Hend;
+                                              //var Hend = moment(ends).format('YYYY-MM-D HH:mm:ss');
+                                              var eventss = {
+                                              color: cita.color,
+                                              start: starts,
+                                              end: ends,
+                                              usuario: insert.insertId,
+                                              servicio: cita.servicio,
+                                              mascota:cita.mascota,
+                                              consultorio:cita.consultorio
+                                              };
+                                              // console.log(eventss);
+                                              var benef = cita.benef;
+                                              // console.log(cita);
+
+                                               if(benef.nuevo == true || benef.nuevo == 'true')
+                                               {
+                                                 var consc = 'SELECT * from usuarios where cedula = ?';
+                                                   connection.query(consc,[benef.ident],(err,res2)=>{
+                                                     if(err){throw err}
+                                                     else
+                                                     {
+                                                       // console.log(res2);
+                                                       if(JSON.stringify(res2)=='[]')
+                                                       {
+                                                         // console.log(benef);
+                                                         var add = 'INSERT INTO usuarios (cedula, nombre, apellidos, telefono,telefonowatshapp,fecha_nacimiento,usuariosBf_id, parentescos_id_parentescos,id_pais) VALUES (?,?,?,?,?,?,?,?,?);';
+                                                         connection.query(add,[benef.ident,benef.nombre,benef.apellidos,benef.tel,benef.tel,benef.fecha_n,insert.insertId,benef.parent,benef.pais],(err,res1)=>{
+                                                         if(err){callback(null,err)}
+                                                         else {
+                                                         {
+                                                           var events = {
+                                                           color: cita.color,
+                                                           start: starts,
+                                                           end: ends,
+                                                           usuario: res1.insertId,
+                                                           servicio: cita.servicio,
+                                                           mascota:cita.mascota,
+                                                           consultorio:cita.consultorio
+                                                           };
+
+                                                           // console.log(res1);
+                                                         // callback(null,res)
+                                                         event.agregarEvento(events,(err,resp)=>{
+                                                           callback(null,resp);
+                                                         });
+                                                         }
+                                                         }
+                                                         });
+
+                                                       }
+                                                       else {
+                                                         callback(null,[{cedula:true}]);
+                                                       }
+                                                     }
+                                                   });
+
+                                               }
+                                               else
+                                               {
+
+                                                 event.agregarEvento(eventss,(err,resp)=>{
+                                                   callback(null,resp);
+                                                 });
+                                               }
+
+
+                                            }
+                                          });
                           });
                    }
             });
 
-              // console.log(ids);
-            let ins = 'INSERT INTO usuarios ( tipoDocumento,cedula, correo,nombre, apellidos,direccion, telefono, fecha_nacimiento,estadoCivil,ocupacion,barrio,eps,members_id, parentescos_id_parentescos, id_pais) VALUES ( ?,?, ?,?, ?,?, ?, ?, ?, ?,?,?,?,?,?);'
-            connection.query(ins,[cita.tipoDocumento,cita.usuario,cita.correo,cita.nombres,cita.apellidos,cita.direccion,cita.contacto,cita.fecha_nacimiento,cita.estadoCivil,cita.ocupacion,cita.barrio,cita.eps,id,17,47],(err,insert)=>{
-              // console.log(insert);
-              if(err){throw err;}
-              else
-              {
-                // console.log(cita);
-                // console.log('/*/*/*/*/*/*AQUI YA AGREGO AL USUSARIO');
-
-                // console.log(insert);
-                var Mend = parseInt(00);
-                var hinicio = moment(cita.start).format('HH:mm:ss');
-                var Finicio = moment(cita.start).format('YYYY-MM-DD');
-                var horas = hinicio.split(":");
-                var mins = horas[1];
-                var hora = horas[0];
-                hora = parseInt(hora);
-                mins = parseInt(mins);
-                minsEnd = mins+Mend;
-                hora = hora;
-                var Hstart = hora+":"+"00"+":00";
-                var Hend = hora+1+":"+"00"+":00";
-                var starts = Finicio+" "+Hstart;
-                var ends = Finicio+" "+Hend;
-                //var Hend = moment(ends).format('YYYY-MM-D HH:mm:ss');
-                var eventss = {
-                color: cita.color,
-                start: starts,
-                end: ends,
-                usuario: insert.insertId,
-                servicio: cita.servicio,
-                mascota:cita.mascota,
-                consultorio:cita.consultorio
-                };
-                // console.log(eventss);
-                var benef = cita.benef;
-                // console.log(cita);
-
-                 if(benef.nuevo == true || benef.nuevo == 'true')
-                 {
-                   var consc = 'SELECT * from usuarios where cedula = ?';
-                     connection.query(consc,[benef.ident],(err,res2)=>{
-                       if(err){throw err}
-                       else
-                       {
-                         // console.log(res2);
-                         if(JSON.stringify(res2)=='[]')
-                         {
-                           // console.log(benef);
-                           var add = 'INSERT INTO usuarios (cedula, nombre, apellidos, telefono,telefonowatshapp,fecha_nacimiento,usuariosBf_id, parentescos_id_parentescos,id_pais) VALUES (?,?,?,?,?,?,?,?,?);';
-                           connection.query(add,[benef.ident,benef.nombre,benef.apellidos,benef.tel,benef.tel,benef.fecha_n,insert.insertId,benef.parent,benef.pais],(err,res1)=>{
-                           if(err){callback(null,err)}
-                           else {
-                           {
-                             var events = {
-                             color: cita.color,
-                             start: starts,
-                             end: ends,
-                             usuario: res1.insertId,
-                             servicio: cita.servicio,
-                             mascota:cita.mascota,
-                             consultorio:cita.consultorio
-                             };
-
-                             // console.log(res1);
-                           // callback(null,res)
-                           event.agregarEvento(events,(err,resp)=>{
-                             callback(null,resp);
-                           });
-                           }
-                           }
-                           });
-
-                         }
-                         else {
-                           callback(null,[{cedula:true}]);
-                         }
-                       }
-                     });
-
-                 }
-                 else
-                 {
-
-                   event.agregarEvento(eventss,(err,resp)=>{
-                     callback(null,resp);
-                   });
-                 }
-
-
-              }
-            });
           }
           else
           {
