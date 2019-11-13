@@ -29,8 +29,8 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
         {
           console.log('ANTECEDENTES FAMILIARES');
           let antf = hisc.antecedentes_f;
-          let sqlAntF = 'INSERT INTO antecedentes_f (cardiopatias, diabetes, hipertension, asma, enfermadad_psiquiatrica, efisema, cancer, epilepcia) VALUES (?,?,?,?,?,?,?,?)';
-          connection.query(sqlAntF,[antf.cardiopatias,antf.diabetes,antf.hipertension,antf.asma,antf.enfermedad_psiquiatrica,antf.efisema,antf.cancer,antf.epilepcia],(err,antf)=>{
+          let sqlAntF = 'INSERT INTO antecedentes_f (cardiopatias, diabetes, hipertension, asma, enfermadad_psiquiatrica, efisema, cancer, epilepcia, otro) VALUES (?,?,?,?,?,?,?,?,?)';
+          connection.query(sqlAntF,[antf.cardiopatias,antf.diabetes,antf.hipertension,antf.asma,antf.enfermedad_psiquiatrica,antf.efisema,antf.cancer,antf.epilepcia,antf.otro],(err,antf)=>{
             if(err){throw err}
             else
             {
@@ -114,8 +114,8 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
         {
           let ef = hisc.examenf;
           // console.log(ef);
-          let sqlef = 'INSERT INTO examenf (frecuencia_cardiaca, frecuencia_resp, presion_art, temperatura, talla, peso, cabeza, cabeza_desc, ojos, ojos_desc, oidos, oidos_desc, nariz, nariz_desc, boca, boca_desc, cuello, cuello_desc, torax_ma, torax_ma_desc, pulmones, pulmones_desc, corazon, corazon_desc, abdomen, abdomen_desc , genitourinario, genitourinario_desc, columna, columna_desc, exremidades, extremidades_desc, neurologico, neurologico_desc, pielyfane, pielyfane_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
-          connection.query(sqlef,[ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza, ef.cabeza_desc, ef.ojos, ef.ojos_desc, ef.oidos, ef.oidos_desc, ef.nariz, ef.nariz_desc, ef.boca, ef.boca_desc, ef.cuello, ef.cuello_desc, ef.torax_ma, ef.torax_ma_desc, ef.pulmones, ef.pulmones_desc, ef.corazon, ef.corazon_desc, ef.abdomen, ef.abdomen_desc, ef.genitourinario, ef.genitourinario_desc, ef.columna, ef.columna_desc, ef.extremidades, ef.extremidades_desc, ef.neurologico, ef.neurologico_desc, ef.pielyfane, ef.pielyfane_desc],(err,ref)=>{
+          let sqlef = 'INSERT INTO examenf (apariencia_g,frecuencia_cardiaca, frecuencia_resp, presion_art, temperatura, talla, peso, cabeza, cabeza_desc, ojos, ojos_desc, oidos, oidos_desc, nariz, nariz_desc, boca, boca_desc, cuello, cuello_desc, torax_ma, torax_ma_desc, pulmones, pulmones_desc, corazon, corazon_desc, abdomen, abdomen_desc , genitourinario, genitourinario_desc, columna, columna_desc, exremidades, extremidades_desc, neurologico, neurologico_desc, pielyfane, pielyfane_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
+          connection.query(sqlef,[ef.apariencia_g,ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza, ef.cabeza_desc, ef.ojos, ef.ojos_desc, ef.oidos, ef.oidos_desc, ef.nariz, ef.nariz_desc, ef.boca, ef.boca_desc, ef.cuello, ef.cuello_desc, ef.torax_ma, ef.torax_ma_desc, ef.pulmones, ef.pulmones_desc, ef.corazon, ef.corazon_desc, ef.abdomen, ef.abdomen_desc, ef.genitourinario, ef.genitourinario_desc, ef.columna, ef.columna_desc, ef.extremidades, ef.extremidades_desc, ef.neurologico, ef.neurologico_desc, ef.pielyfane, ef.pielyfane_desc],(err,ref)=>{
             if(err){throw err}
             else {
               let updthc = 'UPDATE historia_clinica SET id_revisionpsistemas = ? WHERE id_historiacl = ?;';
@@ -169,11 +169,11 @@ histClinModule.activosHisto = (id_serv,callback) => {
   })
 }
 
-histClinModule.darimpresionDiagnostica = (lk,callback) => {
+histClinModule.darimpresionDiagnostica = (callback) => {
   if(connection)
   {
     let sql = 'SELECT * from impresion_diagnostica' ;
-    connection.query(sql,[lk,lk],(err,resp)=>{
+    connection.query(sql,(err,resp)=>{
       if(err){throw err}
       else {
         {

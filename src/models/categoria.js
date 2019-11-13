@@ -30,6 +30,20 @@ callback(null,row);
 }
 };
 
+cateModule.darcateFotos = (callback) => {
+    if(connection)
+    {
+      var sql = 'select * from foto_cate';
+      console.log('run sql');
+      connection.query(sql,(err,row)=>{
+        if(err){throw err}
+        else {
+          console.log(row);
+          callback(row);
+        }
+      });
+    }
+};
 
 cateModule.prueba = (cal,callback)=>{
   // console.log('prueba de callbak');

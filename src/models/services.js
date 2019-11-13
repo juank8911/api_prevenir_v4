@@ -387,7 +387,7 @@ if(connection)
 {
 if(idc==0 || idc=='0')
 {
-// console.log('////////////////Servicios por muunicipios/////////// ')
+console.log('////////////////Servicios por muunicipios/////////// ')
 
 if(idc!=20)
 {
@@ -477,7 +477,7 @@ else
   }
   else
   {
-    var sql = 'SELECT servicios.*, categoria.nombre as categoria, categoria.id_categoria as id_categoria FROM servicios, servicios_categoria, categoria, consultorio, sucursales WHERE servicios.id_servicios = servicios_categoria.servicios_idservicios AND servicios_categoria.categoria_idcategoria = categoria.id_categoria  AND servicios.id_servicios = consultorio.id_servicios AND consultorio.id_sucursales = sucursales.id_sucursales AND sucursales.id_municipio = ? AND categoria.id_categoria = ? AND categoria_idcategoria == 20 AND servicios.eliminado = 0 AND consultorio.eliminado = 0;';
+    var sql = 'SELECT servicios.*, categoria.nombre as categoria, categoria.id_categoria as id_categoria FROM servicios, servicios_categoria, categoria, consultorio, sucursales WHERE servicios.id_servicios = servicios_categoria.servicios_idservicios AND servicios_categoria.categoria_idcategoria = categoria.id_categoria  AND servicios.id_servicios = consultorio.id_servicios AND consultorio.id_sucursales = sucursales.id_sucursales AND sucursales.id_municipio = ? AND categoria.id_categoria = ? AND categoria_idcategoria = 20 AND servicios.eliminado = 0 AND consultorio.eliminado = 0;';
     var sel ='SELECT comentarios_masc.* FROM comentarios_masc, consultorio, mascotas WHERE comentarios_masc.id_consultorio = consultorio.id_consultorio AND comentarios_masc.id_mascotas = mascotas.id_mascotas AND consultorio.id_servicios = ? ORDER BY comentarios_masc.createdAt asc LIMIT 3;';
   }
 //console.log('////////////////Servicios por municipos y categorias ')

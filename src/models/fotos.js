@@ -121,8 +121,8 @@ fotoModel.fotosSer = (foto,callback) =>{
   var respons = [];
   // //console.log(.log('/////*************///////////********antes de insertar**********//////////////****');
   // //console.log(.log(foto);
-  var sqls = 'INSERT INTO fotos (nombre,ruta,servicios_idservicios) VALUES (?,?,?)';
-  connection.query(sqls,[foto.nombre,foto.pathV,foto.id],(err,res)=> {
+  var sqls = 'INSERT INTO fotos (nombre, ruta,servicios_idservicios) VALUES (?,?,?)';
+  connection.query(sqls,[foto.nombre,foto.pathV+'.jpeg',foto.id],(err,res)=> {
   if(err)
   {
   //throw err
@@ -160,19 +160,23 @@ fotoModel.fotoPagina = (fotos,callback) => {
 
           var newPath = "src/public/fotos/"+name;
           var pathView = "/fotos/"+name;
+          console.log(foto.categ);
           ba64.writeImageSync(newPath, foto.foto);
+          console.log('cargada fotos');
           if(!fs.existsSync(newPath))
           {
           var sql = 'INSERT INTO `prevenirexpres`.`fotosp` (ruta, dominio, foto_cate_id_fotoc) VALUES (?, ?, ?);'
-          connection.query(sql,[pathView+'.jpeg',foto.dominio,foto.id],(err,row)=>{
+          connection.query(sql,[pathView+'.jpeg',foto.dominio,foto.categ],(err,row)=>{
           if(err){throw err}
           else {
+            p++;
+            console.log(p,'7',i);
               res.push({'agregada':true, 'id': row.insertId});
           if(p>=i)
               {
                 callback(null,res);
               }
-              p++;
+
           }
           });
           }
@@ -304,6 +308,19 @@ foto = fotoss[i];
   }
 }
 
+};
+
+fotoModel.verFotosF = (callback) => {
+  if(connection)
+  {
+    var sql = 'SELECT fotosp.*, foto_cate.value FROM fotosp, foto_cate WHERE foto_cate.id_fotoc = fotosp.foto_cate_id_fotoc;';
+    connection.query(sql,(err,rfoto)=>{
+      if(err){throw err}
+      else {
+        callback(null,rfoto);
+      }
+    });
+  }
 };
 
 

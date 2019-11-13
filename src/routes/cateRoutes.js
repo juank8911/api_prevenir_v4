@@ -27,6 +27,14 @@ optica.darDatosUsu(req.params.id,(err,resp)=>{
 res.json(resp);
 });});
 
+app.get('/catef',(req,res)=>{
+  // console.log('ingresando');
+  cate.darcateFotos((resp)=>{
+    // console.log(resp);
+      res.json(resp);
+  });
+});
+
 
 
 }

@@ -12,8 +12,8 @@ res.json(data);
 });
 
 //valores por nombre o por RIPS de la tabla de impresion diagnostica
-app.get('/impdiagnostica/:lk',(req,res)=>{
-    histc.darimpresionDiagnostica(req.params.lk,(err,imp)=>{
+app.get('/impdiagnostica',(req,res)=>{
+    histc.darimpresionDiagnostica((err,imp)=>{
        res.json(imp);
     })
 })

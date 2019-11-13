@@ -88,5 +88,10 @@ app.post('/infotoser',(req,res)=>{
   });
 });
 
+app.get('/verfotof',(req,res)=>{
+   fotos.verFotosF((err,resp)=>{
+      res.json(resp);
+   });
+});
 
 }
