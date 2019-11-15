@@ -70,7 +70,7 @@ pushmodule.addtoken = (token,callback)=>{
            console.log(res.id);
             sleep(1000);
 
-          if(res.tokenpsh != token.token)
+          if(res.tokenpsh != token.token && res.tokenpsh != null)
           {
           //   console.log('dentro del if del token');
           //
