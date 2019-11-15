@@ -31,7 +31,7 @@ pushmodule.addtoken = (token,callback)=>{
             // console.log('************/////////////////*************');
             // console.log(res);
             // console.log(token);
-          if(res.tokenpsh != token.token)
+          if(res.tokenpsh != token.token && res.tokenpsh != null )
           {
             // console.log('dentro del if del token');
 
@@ -108,7 +108,7 @@ pushmodule.addtoken = (token,callback)=>{
           // sleep(1000);
           res = res[0];
           // console.log(res);
-        if(res.tokenpsh != token.token)
+        if(res.tokenpsh != token.token && res.tokenpsh != null)
         {
         //   console.log('dentro del if del token');
         //
