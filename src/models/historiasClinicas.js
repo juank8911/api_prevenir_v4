@@ -91,8 +91,8 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
         if(JSON.stringify(hisc.revisionpsistemas)!='{}')
         {
           let rps = hisc.revisionpsistemas;
-          let sqlrps = 'INSERT INTO revisionpsistemas (card_resp, card_resp_desc, vascular, vasc_desc, gastro_int, gastro_int_desc, genito_uri, genito_uri_desc, endocrino, endocrino_desc, osteomuscular, osteomuscular_desc, neurologico, neurologico_dec, pielyfan, pielyfan_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
-          connection.query(sqlrps,[rps.card_resp, rps.card_resp_desc, rps.vascular, rps.vascular_desc, rps.gastro_int, rps.gastro_int_desc, rps.genito_uri, rps.genito_uri_desc, rps.endocrino, rps.endocrino_desc, rps.osteomuscular, rps.osteomuscular_desc, rps.neurologico, rps.neurologico_desc, rps.pielyfan, rps.pielyfan_desc],(err,rrps)=>{
+          let sqlrps = 'INSERT INTO revisionpsistemas (card_resp_desc, vasc_desc, gastro_int_desc, genito_uri_desc, endocrino_desc, osteomuscular_desc, neurologico_dec, pielyfan_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
+          connection.query(sqlrps,[rps.card_resp_desc, rps.vascular_desc, rps.gastro_int_desc, rps.genito_uri_desc, rps.endocrino_desc, rps.osteomuscular_desc, rps.neurologico_desc, rps.pielyfan_desc],(err,rrps)=>{
               if(err){throw err}
               else
               {
@@ -114,8 +114,8 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
         {
           let ef = hisc.examenf;
           // console.log(ef);
-          let sqlef = 'INSERT INTO examenf (apariencia_g,frecuencia_cardiaca, frecuencia_resp, presion_art, temperatura, talla, peso, cabeza, cabeza_desc, ojos, ojos_desc, oidos, oidos_desc, nariz, nariz_desc, boca, boca_desc, cuello, cuello_desc, torax_ma, torax_ma_desc, pulmones, pulmones_desc, corazon, corazon_desc, abdomen, abdomen_desc , genitourinario, genitourinario_desc, columna, columna_desc, exremidades, extremidades_desc, neurologico, neurologico_desc, pielyfane, pielyfane_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)';
-          connection.query(sqlef,[ef.apariencia_g,ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza, ef.cabeza_desc, ef.ojos, ef.ojos_desc, ef.oidos, ef.oidos_desc, ef.nariz, ef.nariz_desc, ef.boca, ef.boca_desc, ef.cuello, ef.cuello_desc, ef.torax_ma, ef.torax_ma_desc, ef.pulmones, ef.pulmones_desc, ef.corazon, ef.corazon_desc, ef.abdomen, ef.abdomen_desc, ef.genitourinario, ef.genitourinario_desc, ef.columna, ef.columna_desc, ef.extremidades, ef.extremidades_desc, ef.neurologico, ef.neurologico_desc, ef.pielyfane, ef.pielyfane_desc],(err,ref)=>{
+          let sqlef = 'INSERT INTO examenf (apariencia_g,frecuencia_cardiaca, frecuencia_resp, presion_art, temperatura, talla, peso, cabeza_desc, ojos_desc, oidos_desc, nariz_desc, boca_desc, cuello_desc, torax_ma_desc, pulmones_desc, corazon_desc, abdomen_desc, genitourinario_desc, columna_desc, extremidades_desc, neurologico_desc, pielyfane_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
+          connection.query(sqlef,[ef.apariencia_g,ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza_desc, ef.ojos_desc, ef.oidos_desc, ef.nariz_desc, ef.boca_desc, ef.cuello_desc, ef.torax_ma_desc, ef.pulmones_desc, ef.corazon_desc,  ef.abdomen_desc, ef.genitourinario_desc, ef.columna_desc, ef.extremidades_desc, ef.neurologico_desc, ef.pielyfane_desc],(err,ref)=>{
             if(err){throw err}
             else {
               let updthc = 'UPDATE historia_clinica SET id_revisionpsistemas = ? WHERE id_historiacl = ?;';

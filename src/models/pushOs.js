@@ -15,6 +15,7 @@ let pushoModule = {};
 pushoModule.sendPush = (info,callback) => {
 
   console.log('creando cliente');
+  console.log(info);
   var myClient = new OneSignal.Client({
     userAuthKey: 'XXXXXX',
     app: { appAuthKey: config.AuthKey, appId: config.appId }

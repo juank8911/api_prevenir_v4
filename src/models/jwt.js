@@ -17,15 +17,15 @@ let jwtmodel = {};
 
 //realiza el login de los ususarios retorna un token
 jwtmodel.login = (logins,callback) =>{
-//  console.log('****************************');
-//  console.log(logins);
+ console.log('****************************');
+ console.log(logins);
 //res.send({'mensaje':'usuario enviado por post'});
 if(connection)
 {
 var email = logins.email;
 var password = logins.password;
 // console.log(password);
-var sql = 'SELECT id, email, password, admin FROM members WHERE email = ? AND password = ?; ';
+var sql = 'SELECT id, email, password, admin, tokenpsh FROM members WHERE email = ? AND password = ?; ';
 // console.log('****************************');
 connection.query(sql,[email , password ],(err,row)=>{
 if(err)
@@ -35,7 +35,7 @@ throw err;
 else
 {
   // console.log('////***LOGIN*****///');
-  // console.log(row);
+  console.log(row);
 var login = row[0];
 if(login!=null)
 {
@@ -62,7 +62,7 @@ admins=2;
 }
 else if (admins=='sucu')
 {
-  // console.log('usuario');
+  // console.log('sucursal');
   admins=4;
 }
 else
@@ -73,8 +73,9 @@ else
 var idU = login.id;
 let loges = {token:tokenres, login:true , esAdmin:admins, id_usuario:idU};
 // console.log('/////*LOGES**//////');
-// console.log(admins);
+// console.log(idU);
 // console.log(loges);
+
 callback(null,loges);}
 else {
 let error = {menaje:'usuario o contraseña incorrecto', login:false};

@@ -21,7 +21,7 @@ module.exports= {
   from: 'remitenteEnvio <Contactop1321>',
   host: 'smtp.gmail.com',
   //onesignal
-  AuthKey: 'YWI5MThkYmUtZDVjMi00OGU1LWFiMTctMzA0YjdkYWYyOWNh',
-  appId: 'e9b74f6d-cd17-4223-ab73-3b355bbf98ce'
+  AuthKey: 'MDE5MGNlOGYtM2IzNC00ZWI5LTgxY2UtYmI3Y2RhZjlhOTJk',
+  appId: 'f8e8d04c-0ea4-41cc-b166-63b0bf23bb48'
 
 };

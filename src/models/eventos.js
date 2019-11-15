@@ -4,6 +4,7 @@ var moment = require('moment');
 var eject = require('./ejecucion');
 var email = require('./email');
 var pushs = require('./push');
+var pushOs = require('./pushOs')
 var sleep = require('system-sleep');
 
 
@@ -188,60 +189,7 @@ connection.query(psh,[events.servicio],(err,rowph)=>{
   if(err){throw err}
   else
 {
-  // console.log('respuesta solicitud de push');
-  // console.log(rowph);
-  email.emailCitaPr(corr,(err,rowss)=>{
-      // console.log(psh);
-    // console.log('enviando e-mail');
-    // console.log('/////////////////////*******************//////////////////');
-    rowph = rowph[0];
-    // console.log('cDN3ljN80nY:APA91bE23ly2oG-rzVAI8i_oiPMZI_CBdU59a6dVznyjdK9FyGi2oPI_sQIQJTAV-xp6YQ6F7MlYYW_7Br0nGdbTIuicwIP4oR99Mf8KysM1ZEJiCmASeyxnOHO4ajgqTDIX6prWpQpG');
-    // console.log('ROW DE LA BASE DE DATOS');
-    // console.log(rowph);
-    var disp = {
-      to:rowph.tokenpsh,
-      body:'Tienes una nueva cita de '+rowph.nombre+', a traves de nuesta app de descuentos medicos para el: '+moment(events.start).format('DD-MM-YYYY')+' a las: '+moment(events.start).format('HH:mm a')+' por favor revisa tus citas en la aplicacion',
-      title:'NUEVA CITA'
-    };
-    // console.log(disp);
-    // console.log('tokenpsh de rowph');
-    // console.log(rowph.tokenpsh);
-    if(rowph.tokenpsh==null||rowph.tokenpsh=='null')
-    {
-  pushs.sendPush(disp,(err,respus)=>{
-      sleep(1000);
-    var med = 'SELECT members.tokenpsh, servicios.nombre FROM members, medicos, consultorio, provedores_has_medicos, servicios WHERE members.id = medicos.members_id AND provedores_has_medicos.medico_id = medicos.medico_id AND servicios.id_servicios = consultorio.id_servicios AND provedores_has_medicos.id_consultorio = ? GROUP BY members.tokenpsh ;';
-    connection.query(med,[events.consultorio],(err,rowm)=>{
-      if(err){throw err}
-      else {
-        // console.log('TOKEN PUSH');
-        // console.log(rowm);
-        if(JSON.stringify(rowm)!='[]'){
-        rowm = rowm[0];
-        disp = {
-          to:rowph.tokenpsh,
-          body:'Tienes una nueva cita de '+rowm.nombre+', a traves de nuesta app de descuentos medicos para el: '+moment(events.start).format('DD-MM-YYYY')+' a las: '+moment(events.start).format('HH:mm a')+' por favor revisa tus citas en la aplicacion',
-          title:'NUEVA CITA'
-        };
-        pushs.sendPush(disp,(err,respus)=>{
-          sleep(1000);
-          // console.log(respus);
-          // console.log('enviando respuesta');
-          callback(null,[{'agregado':true, 'push':respus}]);
-        });
-        }
-        else
-        {
-          callback(null,[{'agregado':true, 'push':false}]);
-        }
-      }
-    });
-  });
-}
-else {
-  callback(null,[{'agregado':true, 'push':false}]);
-}
-  });
+
 }
 });
 
@@ -259,11 +207,140 @@ callback(null,[{'reservado':true}]);}
 });
 }
 };
+//__________________________________________________________________________________________________
 
 
 
+//agrega los eventos a la base de datos
+eventmodule.agregarEvento = (events,callback) =>{
+if(connection){
+  // console.log('*/*/*/*/*/*/*/*/*/*');
+// console.log(events);
+//console.lo.log(events.servicio+'///////////*************************');
+if(events.mascota==true)
+{
+  // console.log('mascota');
+  var sql = 'INSERT INTO events_masc(color,start,end,id_mascotas,id_consultorio) VALUES (?,?,?,?,?)';
+  var valida = 'SELECT createdAT,start FROM events_masc where id_mascotas = ? and DATE(start) = DATE(?); ';
+}
+else
+{
+  // console.log('humano');
+  var sql = 'INSERT INTO events(color,start,end,usuarios_id,id_consultorio) VALUES (?,?,?,?,?)';
+  var valida = 'SELECT createdAT,start FROM events where usuarios_id = ? and DATE(start) = DATE(?); ';
+}
+
+connection.query(valida,[events.usuario,events.start],(err,res)=>{
+if(err){throw err}
+else {
+
+// res = res[0];
+// console.log('/*/*/*/*/RESPUESTA DE AGREGAR CITASC /*/*/*/*/*/');
+// console.log(res);
+if(JSON.stringify(res)=='[]')
+{
+  // console.log('EVENTS EN AGREGAR EVENTO ********');
+  // console.log(events);
+connection.query(sql,[events.color,events.start,events.end,events.usuario,events.consultorio],(err,row)=>{
+if(err){throw err}
+  else
+    {
+      var players = [];
+      var idEvnt = row.insertId;
+      var corr = {
+      id_serv: events.servicio,
+      start: events.start,
+      id_usu:events.usuario,
+      masc:events.mascota};
+    // eject.correCita(corr,(err,resps)=>{
+    var psh = 'SELECT members.tokenpsh, members.email, servicios.nombre FROM members,provedores,servicios WHERE provedores.members_id = members.id AND servicios.id_provedores = provedores.id_provedor AND servicios.id_servicios = ?;';
+    var med = 'SELECT members.tokenpsh FROM members, medicos, consultorio, provedores_has_medicos, servicios WHERE members.id = medicos.members_id AND provedores_has_medicos.medico_id = medicos.medico_id AND servicios.id_servicios = consultorio.id_servicios AND provedores_has_medicos.id_consultorio = ? GROUP BY members.tokenpsh ;';
+    var usup = 'SELECT members.tokenpsh FROM  usuarios, events, members WHERE events.usuarios_id = usuarios.id AND usuarios.members_id = members.id AND events.id_eventos = ?;';
+    connection.query(psh,[events.servicio],(err,rowph)=>{
+      if(err){throw err}
+      else{
+
+      email.emailCitaPr(corr,(err,rowss)=>{
+        rowph = rowph[0];
+        console.log('PROVEDOR');
+        console.log(rowph);
+        if(rowph.tokenpsh!='not')
+        {
+              players.push(rowph.tokenpsh)
+              console.log('PLAYERS PROVEDOR');
+              console.log(players);
+        }
+            console.log(players);
+        connection.query(med,[events.consultorio],(err,rmed)=>{
+          if(err){throw err}
+          else
+          {
+            rmed = rmed[0];
+            console.log('MEDICOS');
+            console.log(rmed);
+            if(rmed.tokenpsh!='not')
+            {
+                  players.push(rmed.rmed)
+                  console.log('PLAYERS MEDICOS');
+                  console.log(players);
+            }
+            connection.query(usup,[idEvnt],(err,rusu)=>{
+              if(err){throw err}
+              else
+              {
+                rusu = rusu[0];
+                console.log('USUARIOS');
+                console.log(rusu);
+                if(rusu.tokenpsh!='not')
+                {
+                      players.push(rusu.tokenpsh)
+                      console.log('PLAYERS USUARIOS');
+                      console.log(players);
+                }
+                var  disp = {
+                            "headings" : {"en": "New ", "es" : "Nueva Cita"},
+                            "contents": {
+                            "en": "You have the new date",
+                            "es": 'Tienes una nueva cita de '+rowph.nombre+', a traves de nuesta app de descuentos medicos para el: '+moment(events.start).format('DD-MM-YYYY')+' a las: '+moment(events.start).format('HH:mm a')+' por favor revisa tus citas en la aplicacion'
+                            },
+                            "include_player_ids": players
+                          };
+                console.log('PLAYERS');
+                console.log(disp);
+                pushOs.sendPush(disp,(err,respu)=>{
+                  console.log('RESPUESTA PUSH');
+                  console.log(respu);
+                  callback(null,[{'agregado':true, 'push':respu}]);
+                });
+              }
+            });
+          }
+        });
+
+      });
+    }
+    });
+
+    // });
+
+    }
+    });
+
+    }
+    else{
+      //console.lo.log('vacio');
+    callback(null,[{'reservado':true}]);}
+
+    }
+            });
+
+}
+
+};
 
 
+
+//____________________________________________________________________________________________________
 // ELIMINA UN EVENTO DE LA BASE DE DATOS
 eventmodule.eliminarEvento = (ev,callback) =>{
   let id = ev.id;

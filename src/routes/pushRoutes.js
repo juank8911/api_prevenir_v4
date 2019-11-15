@@ -6,7 +6,7 @@ module.exports=function(app)
 {
 //actualiza token de el member
 app.put('/push',(req, res)=>{
-  // console.log(req.body);
+  console.log(req.body );
 var token = {
   token:req.body.token,
   id:req.body.id,
@@ -33,7 +33,9 @@ app.post('/push',(req,res)=>{
 });
 
 app.post('/pusho',(req,res)=>{
-  pusho.sendPush((err,resp)=>{
+  console.log('push en one signal');
+  console.log(req.body);
+  pusho.sendPush(req.body,(err,resp)=>{
     res.json(resp);
   })
 })

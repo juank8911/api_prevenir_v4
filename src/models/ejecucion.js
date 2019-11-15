@@ -130,18 +130,13 @@ ejectModel.eliminaNotifica = (env,callback) =>
         {
           var notification = {
               contents: {
-                  en: "Test notification",
+                  en: "Your date",
                   es: 'Su cita de '+rowph.nombre+', separada para el dia: '+moment(rowph.start).format('DD-MM-YYYY')+' a las: '+moment(rowph.start).format('HH:mm a')+' fue cancelada por inconvenientes ajenos a nostros por favor revisa tus citas',
               },
               headings : { es: 'CITA CANCELADA', en: 'dont not'},
               include_player_ids: [rowph.tokenpsh]
           };
 
-        var disp = {
-          push:rowph.tokenpsh,
-          enc:'Su cita de '+rowph.nombre+', separada para el dia: '+moment(rowph.start).format('DD-MM-YYYY')+' a las: '+moment(rowph.start).format('HH:mm a')+' fue cancelada por inconvenientes ajenos a nostros por favor revisa tus citas',
-          enh:'CITA CANCELADA'
-        };
         // console.log(disp);
       pushos.sendPush(notification,(err,respus)=>{
         //
@@ -172,24 +167,37 @@ if(connection)
     if(err){throw err}
     else
     {
+      let p = 1;
       for (var i = 0; i < row.length; i++) {
         // console.log('eject de row');
       // console.log(row[i]);
       let rowps = row[i];
-      disp = {
-        to:rowps.tokenpsh,
-        body:'No olvide su cita de '+rowps.nombre+' para '+rowps.nombres+', separada para el dia: '+moment(rowps.start).format('DD-MM-YYYY')+' a las: '+moment(rowps.start).format('hh:mm a')+' por favor verifique su horario en la aplicacion y en caso de no asisitir comuniquese con el centro prestador del servicio',
-        title:'RECORDATORIO DE CITA'
-      };
-      // console.log(disp);
-      pushs.sendPush(disp,(err,respus)=>{
-        // console.log(respus);
-        // console.log('enviando respuesta');
-      });
+      if(rowps.tokenpsh!='not')
+      {
+        var notification = {
+            contents: {
+                en: "Your date",
+                es: 'No olvide su cita de '+rowps.nombre+' para '+rowps.nombres+', separada para el dia: '+moment(rowps.start).format('DD-MM-YYYY')+' a las: '+moment(rowps.start).format('hh:mm a')+' por favor verifique su horario en la aplicacion y en caso de no asisitir comuniquese con el centro prestador del servicio',
+            },
+            headings : { es: 'RECORDATORIO DE CITA', en: 'dont not'},
+            include_player_ids: [rowps.tokenpsh]
+        };
 
+        // console.log(disp);
+        pushos.sendPush(notification,(err,respus)=>{
+          // console.log(respus);
+          // console.log('enviando respuesta');
+        });
+
+        }
+          if(p>=row.length)
+          {
+            callback(null,{'notificado':true});
+            // console.log(hora);
+          }
+          p++;
       }
-      callback(null,{'notificado':true});
-      // console.log(hora);
+
     }
   });
 
@@ -213,21 +221,31 @@ if(connection)
     {
       if(row.length>0)
       {
+        let p = 1;
         for (var i = 0; i < row.length; i++)
         {
           let rowps = row[i];
-          disp = {
-            to:rowps.tokenpsh,
-            body:'Señor@ '+rowps.nombres+' no olvide su cita de '+rowps.nombre+' a para su peludit@ '+rowps.peludito+', separada para el dia: '+moment(rowps.start).format('DD-MM-YYYY')+' a las: '+moment(rowps.start).format('hh:mm a')+' por favor verifique su horario en la aplicacion y en caso de no asisitir comuniquese con el centro prestador del servicio',
-            title:'RECORDATORIO DE CITA'
+          var notification = {
+              contents: {
+                  en: "Your date",
+                  es: 'Señor@ '+rowps.nombres+' no olvide su cita de '+rowps.nombre+' a para su peludit@ '+rowps.peludito+', separada para el dia: '+moment(rowps.start).format('DD-MM-YYYY')+' a las: '+moment(rowps.start).format('hh:mm a')+' por favor verifique su horario en la aplicacion y en caso de no asisitir comuniquese con el centro prestador del servicio',
+              },
+              headings : { es: 'RECORDATORIO DE CITA', en: 'dont not'},
+              include_player_ids: [rowps.tokenpsh]
           };
-          pushs.sendPush(disp,(err,respus)=>{
+
+          pushos.sendPush(notification,(err,respus)=>{
             // console.log(respus);
             // console.log('enviando respuesta');
           });
         }
       }
-      callback(null,{'notificado':true});
+      if(p>=row.length)
+      {
+        callback(null,{'notificado':true});
+        // console.log(hora);
+      }
+      p++;
     }
   });
 
