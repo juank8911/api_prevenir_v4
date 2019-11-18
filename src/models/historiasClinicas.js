@@ -130,8 +130,28 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
             }
           })
         }
-          if(JSON.stringify(hisc.historia_opt)!='{}')
+        console.log(hisc);
+        console.log(hisc.impresion_diag);
+          if(JSON.stringify(hisc.impresion_diag)!='[]')
           {
+            let j = 0;
+            let impd = hisc.impresion_diag;
+          var isql = 'INSERT INTO historiacli_has_impresiondiag (id_historiacl, id_impresiondiag) VALUES (?, ?);';
+          for (var i = 0; i < impd.length; i++) {
+                connection.query(isql,[ids.id_historiac,impd[i]],(err,idrow)=>{
+                  if(err){throw err}
+
+                  else
+                  {
+                    j++;
+                      console.log('ok ',j);
+                  }
+                })
+                console.log('OK id');
+          }
+          }
+            if(JSON.stringify(hisc.historia_opt)!='{}')
+            {
             var sql = 'INSERT INTO historia_opt (motivoCons, antecedentes, lensometriaOd, lensometriaOi, agudeazaVisualOd, agudeazaVisualOi, visionLejanaOd, visionLejanaOi, visionCercanaOd, visionCercanaOi,adicion, tipoLente, examenExternoOd, examenExternoOi, oftalmologiaOd, oftalmologiaOi, examenMotorOd, examenMotorOi, queratometriaOd, queratometriaOi, refraccionOd, refraccionOi, formulaFinalOd, formulaFinalOi, avvlOd, avvlOi, avvpOd, avvpOi, adicionOd, adicionOi, dnpOd, dnpOi, testIshihara,';
             var sql2 ='testEstereopsis,diagnosticoInical,conducta,medicamentos,remision,observaciones,tipo_consulta,rips,id_usuario,id_servicios) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
             // console.log(sql+sql2);
@@ -156,6 +176,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
     });
   }
 };
+
 
 histClinModule.activosHisto = (id_serv,callback) => {
 
