@@ -38,6 +38,7 @@ app.set('port',config.puerto);
 // ARREGLAR LOS CAMPOS QUE SOLICITA EN EL CAMBIO EL QUERY Y DEMAS OPCIONES
  cron.schedule(' 0 30 * * * *', () => {
    console.log('running a task every 30 minutes');
+   console.log('notificaciones');
    horas.citaHistorial((err,res)=>{
      horas.citaHistorialM((err,resp)=>{
        console.log(res+' ok '+resp);
@@ -75,16 +76,16 @@ app.set('port',config.puerto);
 // });
 
 //REACTIVAR PARA ARREGLAR
-// cron.schedule('0 * * * *', () => {
-//   console.log('corre cada hora min 0 0 * * * *');
-//   console.log(moment().format('YYYY-MM-DD hh:mm:ss a'));
-//   eject.notificaCitaHumanos((err,row)=>{
-//     eject.notiCitasPeluditos((err,rows)=>{
-//       console.log('Citas notificadas');
-//     });
-//   });
-//
-// });
+cron.schedule('0 * * * *', () => {
+  console.log('corre cada hora min 0 0 * * * *');
+  console.log(moment().format('YYYY-MM-DD hh:mm:ss a'));
+  eject.notificaCitaHumanos((err,row)=>{
+    eject.notiCitasPeluditos((err,rows)=>{
+      console.log('Citas notificadas');
+    });
+  });
+
+});
 
 // cron.schedule('* * 1 * *', () => {
 //   console.log('corre cada hora * * 1 * * ');

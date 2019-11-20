@@ -178,6 +178,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
 };
 
 
+
 histClinModule.activosHisto = (id_serv,callback) => {
 
   let sql = 'SELECT * FROM mod_activ WHERE id_servicios = ?;';

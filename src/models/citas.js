@@ -109,7 +109,7 @@ citasModel.CitasUsuarioProv = (usu,callback)=>{
   let res = [];
   let res1 = [];
   let rest = [];
-var sql = "SELECT events.*, concat(usuarios.nombre,' ',usuarios.apellidos) as paciente, usuarios.avatar, day(now()) as hoy,month(now()) as mes, day(events.start) as cita, month(events.start) as mescita, consultorio.nombre, servicios.nombre as servicio, servicios_categoria.categoria_idcategoria as categoria FROM events, usuarios, consultorio, servicios, servicios_categoria WHERE events.usuarios_id = usuarios.id AND events.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND servicios.id_servicios = servicios_categoria.servicios_idservicios AND usuarios.cedula = ? AND consultorio.id_sucursales = ? GROUP BY events.id_eventos;";
+var sql = "SELECT events.*,CONVERT_TZ(events.start,'+00:00','-05:00') as start, concat(usuarios.nombre,' ',usuarios.apellidos) as paciente, usuarios.avatar, day(now()) as hoy,month(now()) as mes, day(events.start) as cita, month(events.start) as mescita, consultorio.nombre, servicios.nombre as servicio, servicios_categoria.categoria_idcategoria as categoria FROM events, usuarios, consultorio, servicios, servicios_categoria WHERE events.usuarios_id = usuarios.id AND events.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND servicios.id_servicios = servicios_categoria.servicios_idservicios AND usuarios.cedula = ? AND consultorio.id_sucursales = ? GROUP BY events.id_eventos;";
   connection.query(sql,[usu.id, usu.suc],(err,row)=>{
     if(err){throw err}
     else

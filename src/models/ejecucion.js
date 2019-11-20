@@ -162,7 +162,7 @@ if(connection)
   // let hora = '2018-11-19 16:00:00';
   // console.log('Inicio de notificaciones a los usuarios ////////////********************');
   // console.log(hora);
-  var sele = 'SELECT events.usuarios_id, events.start, CONCAT(jhg.nombre," ",jhg.apellidos) as nombres,servicios.nombre, if(jhg.usuariosBf_id !="",(SELECT members.tokenpsh FROM usuarios as pr, usuarios as bf,members WHERE pr.id = bf.usuariosBf_id AND members.id = pr.members_id AND bf.id = jhg.id ), (SELECT members.tokenpsh FROM members,usuarios WHERE members.id = usuarios.id AND usuarios.id = jhg.id)) as tokenpsh  FROM events, usuarios as jhg, servicios where jhg.id = events.usuarios_id AND servicios.id_servicios = events.servicios_idservicios AND start = ?;';
+  var sele = 'SELECT events.usuarios_id, events.start, CONCAT(jhg.nombre," ",jhg.apellidos) as nombres,servicios.nombre, if(jhg.usuariosBf_id !="",(SELECT members.tokenpsh FROM usuarios as pr, usuarios as bf,members WHERE pr.id = bf.usuariosBf_id AND members.id = pr.members_id AND bf.id = jhg.id ), (SELECT members.tokenpsh FROM members,usuarios WHERE members.id = usuarios.id AND usuarios.id = jhg.id)) as tokenpsh  FROM events, usuarios as jhg, servicios, consultorio where jhg.id = events.usuarios_id AND events.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND start = ?;';
   connection.query(sele,[hora],(err,row)=>{
     if(err){throw err}
     else
