@@ -150,6 +150,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
                 console.log('OK id');
           }
           }
+          console.log(hisc.historia_opt);
             if(JSON.stringify(hisc.historia_opt)!='{}')
             {
             var sql = 'INSERT INTO historia_opt (motivoCons, antecedentes, lensometriaOd, lensometriaOi, agudeazaVisualOd, agudeazaVisualOi, visionLejanaOd, visionLejanaOi, visionCercanaOd, visionCercanaOi,adicion, tipoLente, examenExternoOd, examenExternoOi, oftalmologiaOd, oftalmologiaOi, examenMotorOd, examenMotorOi, queratometriaOd, queratometriaOi, refraccionOd, refraccionOi, formulaFinalOd, formulaFinalOi, avvlOd, avvlOi, avvpOd, avvpOi, adicionOd, adicionOi, dnpOd, dnpOi, testIshihara,';
@@ -191,6 +192,20 @@ histClinModule.activosHisto = (id_serv,callback) => {
   })
 }
 
+histClinModule.darHistClinIdU = (idu, callback) => {
+  if(connection)
+  {
+    let sql = 'SELECT * FROM historia_clinica WHERE usuarios_id = ?';
+    connection.query(sql,[idu],(err,rhcl)=>{
+        if(err){throw err}
+        else
+        {
+          callback(null,rhcl);
+        }
+    });
+  }
+};
+
 histClinModule.darimpresionDiagnostica = (callback) => {
   if(connection)
   {
@@ -205,6 +220,8 @@ histClinModule.darimpresionDiagnostica = (callback) => {
     })
   }
 };
+
+
 
 
 

@@ -222,10 +222,12 @@ userModel.darUsuario=(ced,callback)=>{
   userModel.validaCorreo=(correo, callback)=>{
         if(connection)
         {
+          // console.log(correo);
           var sql = "SELECT members.email FROM members WHERE email = ?;";
           connection.query(sql,[correo],(err,row)=>{
             if(err){throw err}
             else{
+              // console.log(row);
               if(JSON.stringify(row)!='[]')
               {
                 callback(null,true);

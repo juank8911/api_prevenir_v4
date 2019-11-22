@@ -28,6 +28,12 @@ app.post('/histclinica',(req,res)=>{
 
 });
 
+app.get('/darhistclinica/:idu',(req,res)=>{
+    histc.darHistClinIdU(req.params.idu,(err,resp)=>{
+            res.json(resp);
+    });
+});
+
 
 
 }

@@ -88,7 +88,7 @@ app.get('/usua/:ced',(req,res)=>{
 
 //ruta para validar los correos.
 app.get('/vemail/:email',(req,res)=>{
-    var correo = req.params.ced;
+    var correo = req.params.email;
     User.validaCorreo(correo,(err,resp)=>{
        res.json(resp);
     });
