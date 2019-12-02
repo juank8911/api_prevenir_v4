@@ -51,7 +51,7 @@ if(connection)
   if(serv.cate==20)
   {
     // console.log('Mascotas');
-    var sql = "SELECT events_masc.id_eventos,events_masc.id_mascotas as usuarios_id, events_masc.start, events_masc.end, consultorio.id_servicios as servicios_idservicios, mascotas.nombre as nombres FROM events_masc, consultorio, servicios, mascotas WHERE mascotas.id_mascotas = events_masc.id_mascotas AND events_masc.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND events_masc.start = ? AND consultorio.id_consultorio = ?;"
+    var sql = "SELECT events_masc.*, events_masc.id_eventos,events_masc.id_mascotas as usuarios_id, events_masc.start, events_masc.end, consultorio.id_servicios as servicios_idservicios, mascotas.nombre as nombres FROM events_masc, consultorio, servicios, mascotas WHERE mascotas.id_mascotas = events_masc.id_mascotas AND events_masc.id_consultorio = consultorio.id_consultorio AND consultorio.id_servicios = servicios.id_servicios AND events_masc.start = ? AND consultorio.id_consultorio = ?;"
   }
   else
   {

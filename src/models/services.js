@@ -111,18 +111,19 @@ servmodule.DarServiceUsu = (ids,callback) => {
 console.log('prueba de servicios')
 if(connection)
 {
+  console.log(ids);
 var sql = 'SELECT servicios.*, categoria.nombre as categoria,categoria.id_categoria FROM servicios, categoria, servicios_categoria WHERE servicios.id_servicios = servicios_categoria.servicios_idservicios AND servicios_categoria.categoria_idcategoria = categoria.id_categoria AND servicios.id_provedores = ? AND servicios.eliminado = 0 ORDER BY servicios.createdupdate desc;';
 var sel = 'SELECT comentarios.*,usuarios.avatar, CONCAT(usuarios.nombre," ",usuarios.apellidos) as nombre FROM comentarios, consultorio, usuarios WHERE comentarios.id_consultorio = consultorio.id_consultorio AND comentarios.usuarios_id = usuarios.id AND consultorio.id_servicios = ? ORDER BY comentarios.createdAt asc LIMIT 3;';
 connection.query(sql,[ids],(err,row)=>{
 if(err)
 {
-
+throw err
 }
 else
 {
   if (JSON.stringify(row)!='[]')
   {
-
+    // console.log(row);
   var p =1;
   var sql1 = 'SELECT * FROM fotos where servicios_idservicios = ? limit 1';
   var sql = 'SELECT * FROM fotos where servicios_idservicios = ?';
@@ -132,11 +133,15 @@ else
   row.forEach((serv)=>{
   // console.log(serv.idservicios)
   var id = serv.id_servicios;
+  // console.log('ID SERVICIO');
   // console.log(id);
   connection.query(sql1,[id],(err,ft)=>{
     if(err){throw err}
     else
     {
+      // console.log('DENTRO DEL QUERY');
+      // console.log(id);
+      // console.log(ft);
       // console.log(ft);
       ft = ft[0];
       serv.foto = ft.ruta;

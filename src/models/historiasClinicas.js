@@ -192,11 +192,12 @@ histClinModule.activosHisto = (id_serv,callback) => {
   })
 }
 
-histClinModule.darHistClinIdU = (idu, callback) => {
+histClinModule.darHistClinIdU = (ids, callback) => {
   if(connection)
   {
-    let sql = 'SELECT * FROM historia_clinica WHERE usuarios_id = ?';
-    connection.query(sql,[idu],(err,rhcl)=>{
+    console.log(ids);
+    let sql = 'SELECT * FROM historia_clinica WHERE usuarios_id = ? AND id_servicios = ?';
+    connection.query(sql,[ids.idu, ids.idser],(err,rhcl)=>{
         if(err){throw err}
         else
         {
@@ -204,6 +205,27 @@ histClinModule.darHistClinIdU = (idu, callback) => {
         }
     });
   }
+};
+
+histClinModule.darHistClinCompleta = (ids, callback) => {
+    if(connection)
+    {
+      console.log(ids);
+      let sql = 'SELECT * FROM mod_activ WHERE id_servicios = ?;';
+      connection.query(sql,[ids.idser],(err,ract)=>{
+        if(err){throw err}
+        else
+        {
+          ract = ract[0];
+          console.log(ract.historia_opt);
+          if(ract.historia_opt==1)
+          {
+            
+          }
+        }
+
+      });
+    }
 };
 
 histClinModule.darimpresionDiagnostica = (callback) => {

@@ -247,6 +247,7 @@ if(err){throw err}
     {
       var players = [];
       var idEvnt = row.insertId;
+      var idUsuario = events.usuario;
       var corr = {
       id_serv: events.servicio,
       start: events.start,
@@ -255,7 +256,19 @@ if(err){throw err}
     // eject.correCita(corr,(err,resps)=>{
     var psh = 'SELECT members.tokenpsh, members.email, servicios.nombre FROM members,provedores,servicios WHERE provedores.members_id = members.id AND servicios.id_provedores = provedores.id_provedor AND servicios.id_servicios = ?;';
     var med = 'SELECT members.tokenpsh FROM members, medicos, consultorio, provedores_has_medicos, servicios WHERE members.id = medicos.members_id AND provedores_has_medicos.medico_id = medicos.medico_id AND servicios.id_servicios = consultorio.id_servicios AND provedores_has_medicos.id_consultorio = ? GROUP BY members.tokenpsh ;';
-    var usup = 'SELECT members.tokenpsh FROM  usuarios, events, members WHERE events.usuarios_id = usuarios.id AND usuarios.members_id = members.id AND events.id_eventos = ?;';
+      // console.log('mascota');
+    if(events.mascota==true)
+    {
+      // console.log('mascota');
+      var usup = 'SELECT members.tokenpsh FROM usuarios, mascotas, members WHERE usuarios.members_id = members.id AND mascotas.id_usuarios = usuarios.id AND mascotas.id_mascotas = ?;';
+    }
+    else
+    {
+      // console.log('humano');
+      var usup = 'SELECT members.tokenpsh FROM  usuarios,  members WHERE usuarios.members_id = members.id AND usuarios.id = ?;';
+    }
+
+
     connection.query(psh,[events.servicio],(err,rowph)=>{
       if(err){throw err}
       else{
@@ -284,7 +297,7 @@ if(err){throw err}
                   console.log('PLAYERS MEDICOS');
                   console.log(players);
             }
-            connection.query(usup,[idEvnt],(err,rusu)=>{
+            connection.query(usup,[idUsuario],(err,rusu)=>{
               if(err){throw err}
               else
               {
@@ -293,6 +306,7 @@ if(err){throw err}
                 console.log(rusu);
                 if(rusu.tokenpsh!='not')
                 {
+                      console.log('ENTRO AL IF CON PUSH ' ,rusu.tokenpsh );
                       players.push(rusu.tokenpsh)
                       console.log('PLAYERS USUARIOS');
                       console.log(players);
@@ -405,6 +419,7 @@ callback(null,{'borrado':false})
 eventmodule.delEventSuc = (ev,callback)=>{
 if(connection)
 {
+  console.log(ev);
   //selecciona el id del servicio con el id de los provedores
   if(ev.cate == 20 || ev.cate == '20')
   {
@@ -509,12 +524,12 @@ eventmodule.eventsCalendar = (ev,callback) =>{
     if(ev.id_mascotas==20 || ev.id_mascotas=='20')
     {
       //console.log('dentro del if');
-      var sql = 'SELECT  events_masc.id_eventos, mascotas.*,events_masc.id_mascotas, mascotas.nombre as title ,start, end,YEAR(start) as year, MONTH(start)-1 as month, DAY(start) as date FROM events_masc, mascotas WHERE events_masc.id_mascotas = mascotas.id_mascotas AND MONTH(start) = ? AND YEAR(start) = ? and events.id_consultorio = ?'
+      var sql = 'SELECT  events_masc.id_eventos, mascotas.*,events_masc.id_mascotas, mascotas.nombre as title ,start, end,YEAR(start) as year, MONTH(start)-1 as month, DAY(start) as date FROM events_masc, mascotas WHERE events_masc.id_mascotas = mascotas.id_mascotas AND MONTH(start) = ? AND YEAR(start) = ? and events_masc.id_consultorio = ?';
     }
     else
     {
       //console.log('no entro al if');
-      var sql = 'SELECT events.id_eventos, usuarios.*, events.usuarios_id, CONCAT(usuarios.nombre," ",usuarios.apellidos) as title, start, end,YEAR(start) as year, MONTH(start)-1 as month, DAY(start) as date FROM events, usuarios WHERE events.usuarios_id = usuarios.id AND MONTH(start) = ? AND YEAR(start) = ? and events.id_consultorio = ?;'
+      var sql = 'SELECT events.id_eventos, usuarios.*, events.usuarios_id, CONCAT(usuarios.nombre," ",usuarios.apellidos) as title, start, end,YEAR(start) as year, MONTH(start)-1 as month, DAY(start) as date FROM events, usuarios WHERE events.usuarios_id = usuarios.id AND MONTH(start) = ? AND YEAR(start) = ? and events.id_consultorio = ?;';
     }
 
 

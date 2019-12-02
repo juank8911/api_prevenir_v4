@@ -28,8 +28,16 @@ app.post('/histclinica',(req,res)=>{
 
 });
 
-app.get('/darhistclinica/:idu',(req,res)=>{
-    histc.darHistClinIdU(req.params.idu,(err,resp)=>{
+app.get('/darhistclinica/:idu/:idser',(req,res)=>{
+  console.log(req.params);
+    histc.darHistClinIdU(req.params,(err,resp)=>{
+            res.json(resp);
+    });
+});
+
+app.get('/darhistclinicac/:idh/:idser',(req,res)=>{
+  console.log(req.params);
+    histc.darHistClinCompleta(req.params,(err,resp)=>{
             res.json(resp);
     });
 });
