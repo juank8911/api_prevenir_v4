@@ -28,10 +28,11 @@ pushmodule.addtoken = (token,callback)=>{
          {
            // sleep(1000);
             res = res[0];
-            // console.log('************/////////////////*************');
-            // console.log(res);
+            // console.log('************////////tokenpsh/////////*************');
+            // console.log(res.tokenpsh);
+            // console.log('************////////token/////////*************');
             // console.log(token);
-          if(res.tokenpsh != token.token && res.tokenpsh != 'null' )
+          if(res.tokenpsh != token.token || res.tokenpsh == 'null' || res.tokenpsh == null )
           {
             // console.log('dentro del if del token');
 
@@ -64,13 +65,13 @@ pushmodule.addtoken = (token,callback)=>{
         else
          {
            res = res[0];
-           console.log(res);
-           console.log(token.token);
-           console.log(token.id);
-           console.log(res.id);
+           // console.log(res);
+           // console.log(token.token);
+           // console.log(token.id);
+           // console.log(res.id);
             sleep(1000);
 
-          if(res.tokenpsh != token.token && res.tokenpsh != null)
+          if(res.tokenpsh != token.token || res.tokenpsh == null || res.tokenpsh == 'null')
           {
           //   console.log('dentro del if del token');
           //
@@ -108,7 +109,7 @@ pushmodule.addtoken = (token,callback)=>{
           // sleep(1000);
           res = res[0];
           // console.log(res);
-        if(res.tokenpsh != token.token && res.tokenpsh != null)
+        if(res.tokenpsh != token.token || res.tokenpsh != null || res.tokenpsh != 'null')
         {
         //   console.log('dentro del if del token');
         //

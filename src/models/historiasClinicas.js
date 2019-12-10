@@ -13,7 +13,7 @@ database: config.nombredb
 
 let histClinModule = {};
 
-histClinModule.nuevaHistoria = (hisc,callback) =>{
+histClinModule.nuevaHistoria = (hisc,callback) => {
   if(connection)
   {
     // console.log(hisc);
@@ -24,7 +24,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
       if(err){throw err }
       else {
         ids.id_historiac = histoc.insertId;
-        // console.log(hisc.historia_opt);
+        console.log(hisc);
         if(JSON.stringify(hisc.antecedentes_f)!='{}')
         {
           console.log('ANTECEDENTES FAMILIARES');
@@ -118,7 +118,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
           connection.query(sqlef,[ef.apariencia_g,ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza_desc, ef.ojos_desc, ef.oidos_desc, ef.nariz_desc, ef.boca_desc, ef.cuello_desc, ef.torax_ma_desc, ef.pulmones_desc, ef.corazon_desc,  ef.abdomen_desc, ef.genitourinario_desc, ef.columna_desc, ef.extremidades_desc, ef.neurologico_desc, ef.pielyfane_desc],(err,ref)=>{
             if(err){throw err}
             else {
-              let updthc = 'UPDATE historia_clinica SET id_revisionpsistemas = ? WHERE id_historiacl = ?;';
+              let updthc = 'UPDATE historia_clinica SET id_examenf = ? WHERE id_historiacl = ?;';
               connection.query(updthc,[ref.insertId,ids.id_historiac],(err,ok)=>{
                 if(err){ throw err}
                 else
@@ -132,7 +132,7 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
         }
         console.log(hisc);
         console.log(hisc.impresion_diag);
-          if(JSON.stringify(hisc.impresion_diag)!='[]')
+          if(JSON.stringify(hisc.impresion_diag)!='[]' || hisc.impresion_diag != undefined)
           {
             let j = 0;
             let impd = hisc.impresion_diag;
@@ -151,16 +151,17 @@ histClinModule.nuevaHistoria = (hisc,callback) =>{
           }
           }
           console.log(hisc.historia_opt);
-            if(JSON.stringify(hisc.historia_opt)!='{}')
+            if(JSON.stringify(hisc.historia_opt)!= '{}')
             {
             var sql = 'INSERT INTO historia_opt (motivoCons, antecedentes, lensometriaOd, lensometriaOi, agudeazaVisualOd, agudeazaVisualOi, visionLejanaOd, visionLejanaOi, visionCercanaOd, visionCercanaOi,adicion, tipoLente, examenExternoOd, examenExternoOi, oftalmologiaOd, oftalmologiaOi, examenMotorOd, examenMotorOi, queratometriaOd, queratometriaOi, refraccionOd, refraccionOi, formulaFinalOd, formulaFinalOi, avvlOd, avvlOi, avvpOd, avvpOi, adicionOd, adicionOi, dnpOd, dnpOi, testIshihara,';
             var sql2 ='testEstereopsis,diagnosticoInical,conducta,medicamentos,remision,observaciones,tipo_consulta,rips,id_usuario,id_servicios) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
             // console.log(sql+sql2);
+            let opt = hisc.historia_opt;
             connection.query(sql+sql2,[opt.motivoConsulta,opt.antecedentes,opt.lensometriaOd,opt.lensometriaOi,opt.agudezaVisualOd,opt.agudezaVisualOi,opt.visionLejanaOd,opt.visionLejanaOi,opt.visionCercanaOd,opt.visionCercanaOi,opt.adicion,opt.tipoLente,opt.examenExternoOd,opt.examenExternoOi,opt.oftalmologiaOd,opt.oftalmologiaOi,opt.examenMotorOd,opt.examenMotorOi,opt.queratometriaOd,opt.queratometriaOi,opt.refracionOd,opt.refraccionOi,opt.formulaFinalOd,opt.formulaFinalOi,opt.avvlOd,opt.avvlOi,opt.avvpOd,opt.avvpOi,opt.adicionOd,opt.adicionOi,opt.dnpOd,opt.dnpOi,opt.testIshihara,opt.testEstereopsis,opt.diagnosticoInicial,opt.conducta,opt.medicamentos,opt.remision,opt.observaciones,opt.tipoConsulta,opt.rips, opt.id_usuario,opt.id_servicio],(err,rop)=>{
               if(err){throw err}
               else
               {
-                let updthc = 'UPDATE historia_clinica SET id_revisionpsistemas = ? WHERE id_historiacl = ?;';
+                let updthc = 'UPDATE historia_clinica SET id_historia_opt = ? WHERE id_historiacl = ?;';
                 connection.query(updthc,[rop.insertId,ids.id_historiac],(err,ok)=>{
                   if(err){ throw err}
                   else
@@ -220,7 +221,7 @@ histClinModule.darHistClinCompleta = (ids, callback) => {
           console.log(ract.historia_opt);
           if(ract.historia_opt==1)
           {
-            
+
           }
         }
 
@@ -240,6 +241,166 @@ histClinModule.darimpresionDiagnostica = (callback) => {
         }
       }
     })
+  }
+};
+
+
+histClinModule.darHistoriaClinicaFin = (idc,callback) =>
+{
+  if(connection)
+  {
+    //PEGAR AQUI
+    // console.log(id);
+    var sql = 'SELECT * FROM historia_clinica WHERE historia_clinica.id_historiacl = ?;';
+    var sqlaf = 'SELECT * FROM antecedentes_f WHERE id_antecedentesf = ?;';
+    var sqlap = 'SELECT * FROM antecedentes_p WHERE id_antecedentesp = ?;';
+    var sqlop = 'SELECT * FROM historia_opt WHERE idhistoria_opt = ?';
+    var promise = new Promise(async function (res,rej){
+      await connection.query(sql,idc,(err,data) => {
+        // console.log(data);
+        return (err) ? rej(err) :  res(data);
+      })
+    });
+    var promiseAf = new Promise(async function(resaf,rejaf){
+        // await connection.query(sql,)
+    });
+  promise.then(async(res1,rej1)=> {
+              // console.log(res1);
+              new Promise(async function(resolve, reject) {
+                res1 = res1[0];
+                  if(res1.id_antecedentesf != null)
+                  {
+                    // console.log('denrtro del if');
+                    // console.log(res1.id_antecedentesf);
+                    connection.query(sqlaf,[res1.id_antecedentesf],(err,resaf)=>{
+                      res1.antecedentef = resaf[0];
+                      return (err) ? reject(err) :  resolve(res1);
+                    })
+                  }
+                    else{
+                      res1.antecedentef = {};
+                      return resolve(res1)
+                    }
+              }).then(async(res2,rej2)=>{
+                        new Promise(function(resolve, reject) {
+                          // console.log('RES 2');
+                                // console.log(res2);
+                                // console.log(res2.id_antecedentesp);
+                        if(res2.id_antecedentesp != null)
+                        {
+                          connection.query(sqlap,[res2.id_antecedentesp],(err,resap)=>{
+                            // console.log(resap);
+                            res2.antecedentesp = resap[0];
+                            return (err) ? reject(err) : resolve(res2);
+                          })
+                        }
+                        else {
+                          // console.log('FUNCIONO');
+                          res2.antecedentesp = {};
+                          return resolve(res2)
+                        }
+                        }).then(async(res3,rej3)=>{
+                                new Promise(function(resolve, reject) {
+                                  // console.log('RES 3');
+                                        // console.log(res3);
+                                        // console.log(res3.id_historia_opt);
+                                        if(res3.id_historia_opt != null)
+                                          {
+                                            connection.query(sqlop,[res3.id_historia_opt],(err,resop)=>{
+                                              // console.log(resop);
+                                              res3.histoptica = resop[0];
+                                              return (err) ? reject(err) : resolve(res3);
+                                            })
+                                          }
+                                          else {
+                                            // console.log('NO OPTICA');
+                                            res3.histoptica = {};
+                                            return resolve(res3)
+                                          }
+                                }).then(async(res4,rej4)=>{
+                                    new Promise(function(resolve, reject) {
+                                            // console.log('RES 4');
+                                            // console.log(res4);
+                                            if(res4.id_habitosyfactores != null)
+                                            {
+                                              let sqlhyf = 'SELECT * FROM habitosyfactores WHERE id_habitosyfactores = ?;';
+                                              connection.query(sqlhyf,[res4.id_habitosyfactores],(err,reshf)=>{
+                                                res4.habitosyfactores = reshf[0];
+                                                return (err) ? reject(err): resolve(res4);
+                                              })
+                                            }
+                                            else
+                                            {
+                                              // console.log('NO Habitos');
+                                              res4.habitosyfactores = {};
+                                              return resolve(res4)
+                                            }
+
+                                    }).then(async(res5,rej5)=>{
+                                      new Promise(function(resolve, reject) {
+                                        // console.log('RES5');
+                                        // console.log(res5);
+                                        if(res5.id_revisionpsistemas != null){
+                                          let sqlrs = 'SELECT * FROM revisionpsistemas WHERE id_revisionpsistemas = ?;';
+                                          connection.query(sqlrs,[res5.id_revisionpsistemas],(err,resrs)=>{
+                                            // console.log(resrs);
+                                            res5.revisionps = resrs[0];
+                                            return (err)? reject(err): resolve(res5)
+                                          })
+                                          }
+                                          else{
+                                            res5.revisionps = {};
+                                            return resolve(res5)
+                                          }
+                                        }).then(async(res6,rej6)=>{
+                                          // console.log('RES6');
+                                          // console.log(res6);
+                                          new Promise(function(resolve, reject) {
+                                            if(res6.id_examenf != null)
+                                          {
+                                              let sqlef = 'SELECT * FROM examenf WHERE id_examenf = ?;';
+                                              connection.query(sqlef,[res6.id_examenf],(err,respef)=>{
+                                                res5.examenf = respef[0];
+                                                return (err)? reject(err): resolve(res6);
+                                              })
+                                            }
+                                            else
+                                            {
+                                              res5.examenf = {};
+                                              return resolve(res6);
+                                            }
+
+                                          }).then(async(res7,rej7)=>{
+                                              new Promise(function(resolve, reject) {
+                                                  let sqlid = 'SELECT * FROM impresion_diagnostica, historiacli_has_impresiondiag WHERE impresion_diagnostica.id_impresiondiag = historiacli_has_impresiondiag.id_impresiondiag AND historiacli_has_impresiondiag.id_historiacl = ?;';
+                                                  connection.query(sqlid,[res7.id_historiacl],(err,resid)=>{
+                                                    // console.log(resid);
+                                                      if(JSON.stringify(resid)!= '[]')
+                                                      {
+                                                        res7.impresiondiag = resid;
+                                                        // console.log(res7);
+                                                        return (err)? reject(err): resolve(res7);
+                                                      }
+                                                      else {
+                                                        // console.log('no existen datos');
+                                                        res7.impresiondiag = [];
+                                                        return resolve(res7);
+                                                      }
+
+                                                  })
+                                              }).then(async(resfn,rejfn)=>{
+                                                  // console.log('then fin');
+                                                  // console.log(resfn);
+                                                  callback(null,resfn)
+                                                }).catch((err)=>{console.error(err);})
+                                          })
+                                        })
+                                        });
+                                      });
+                                    });
+                                  });
+                                });
+//PEGAR HASTA AQUI
   }
 };
 

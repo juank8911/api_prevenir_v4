@@ -818,7 +818,7 @@ callback(null,derro);
 }};
 
 // retorna el horario del dia con sus citas
-horarioModel.darDiaOc = (fecha,callback)=>{
+horarioModel.darDiaOc = (fecha,callback)=> {
 var manana = [];
 var tarde = [];
 var derro = [];

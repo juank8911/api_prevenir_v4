@@ -821,7 +821,7 @@ servmodule.servisucu = (idsu,callback)=>{
   }
 };
 
-servmodule.pruebaP = (callback)=>{
+servmodule.pruebaP = (callback)=> {
   var sql = 'select * FROM members;';
   var promise = new Promise(function (res,rej){
     connection.query(sql,(err,data) => {

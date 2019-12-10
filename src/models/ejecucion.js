@@ -205,7 +205,7 @@ if(connection)
 
 };
 
-ejectModel.notiCitasPeluditos = (callback)=>{
+ejectModel.notiCitasPeluditos = (callback)=> {
 if(connection)
 {
   let disp = {};
@@ -393,7 +393,7 @@ ejectModel.cambioContra = (id,callback)=>{
   }
 };
 
-ejectModel.aceptaContra = (dts,callback)=>{
+ejectModel.aceptaContra = (dts,callback)=> {
   if(connection)
   {
     // console.log('Cambio de contrseña');
@@ -417,7 +417,7 @@ ejectModel.aceptaContra = (dts,callback)=>{
   }
 };
 
-ejectModel.fotosSer = async (ser,callback) =>{
+ejectModel.fotosSer = async (ser,callback) => {
 if(connection)
 {
   var sql = 'SELECT * FROM fotos where servicios_idservicios = ?';

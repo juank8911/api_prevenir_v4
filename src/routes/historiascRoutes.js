@@ -42,6 +42,16 @@ app.get('/darhistclinicac/:idh/:idser',(req,res)=>{
     });
 });
 
+//devuelve listado de categorias
+app.get('/darhistcf/:idhc',(req,res)=>{
+    // console.log(req.params.idc);
+    histc.darHistoriaClinicaFin(req.params.idhc,(err,resp)=>{
+      res.json(resp);
+    });
+
+
+});
+
 
 
 }

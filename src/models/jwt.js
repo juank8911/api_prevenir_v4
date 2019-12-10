@@ -53,30 +53,48 @@ var admins = login.admin;
 if(admins=='true')
 {
   // console.log('provedor');
+  var sqlp = 'SELECT provedores.id_provedor as ide FROM provedores WHERE provedores.members_id = ?;';
 admins=1;
 }
 else if (admins=='false')
 {
   // console.log('usuario');
+  var sqlp = 'SELECT usuarios.id as ide FROM usuarios WHERE usuarios.members_id = ?;';
 admins=2;
 }
 else if (admins=='sucu')
 {
   // console.log('sucursal');
+    var sqlp = 'SELECT sucursales.id_sucursales as ide from sucursales WHERE sucursales.members_id = ?;';
   admins=4;
 }
 else
 {
   // console.log('medico');
+  var sqlp = 'SELECT medicos.medico_id as ide FROM medicos WHERE medicos.members_id =?;';
   admins=3;
 }
-var idU = login.id;
-let loges = {token:tokenres, login:true , esAdmin:admins, id_usuario:idU};
-// console.log('/////*LOGES**//////');
-// console.log(idU);
-// console.log(loges);
+console.log('QUERY');
+console.log(sqlp);
+console.log('ID');
+console.log(login.id);
+connection.query(sqlp,[login.id],(err,respu)=>{
+  if(err){throw err}
+  else {
 
-callback(null,loges);}
+    // var idU = login.id;
+    console.log(respu);
+    respu = respu[0];
+    let loges = {token:tokenres, login:true , esAdmin:admins, id_usuario:respu.ide, id_member:login.id};
+    // console.log('/////*LOGES**//////');
+    // console.log(idU);
+    console.log(loges);
+
+    callback(null,loges);
+
+  }
+});
+}
 else {
 let error = {menaje:'usuario o contraseña incorrecto', login:false};
 callback(null,error);
@@ -251,6 +269,8 @@ jwtmodel.confirmaCuenta = (salt,callback)=>{
 jwtmodel.bloqueo = (id,callback) =>{
   if(connection)
   {
+    console.log('id de bloqueo');
+    console.log(id);
     let sel = 'SELECT locked FROM members WHERE id = ?';
     connection.query(sel,[id],(err,row)=>{
       if(err){throw err}
