@@ -13,26 +13,24 @@ database: config.nombredb
 
 let histClinModule = {};
 
-histClinModule.nuevaHistoria1 = (hisc,callback) => {
+histClinModule.nuevaHistoria = (hisc,callback) => {
 
  var ids={}
  let promesa = new Promise(function(resolve, reject) {
-   console.log('hic');
-   console.log(hisc);
    let inshist = 'INSERT INTO historia_clinica (tipo_consulta, motiv_oconsulta, enfermedades_preex, usuarios_id, id_servicios) VALUES (?, ?, ?, ?, ?);';
    connection.query(inshist,[hisc.tipo_consulta,hisc.motivo_consulta,hisc.enfermedades_preex,hisc.usuario_id,hisc.id_servicios],(err,histoc)=>{
-     console.log(histoc);
      ids.id_historiac = histoc.insertId;
      console.log(hisc);
      return (err) ? reject(err) :  resolve(histoc);
    });
  });
+
  promesa.then(async(res1, rej1)=>{
       new Promise(function(resolve, reject) {
 
         if(JSON.stringify(hisc.antecedentes_f)!='{}')
         {
-          console.log('ANTECEDENTES FAMILIARES');
+          // console.log('ANTECEDENTES FAMILIARES');
           let antf = hisc.antecedentes_f;
           let sqlAntF = 'INSERT INTO antecedentes_f (cardiopatias, diabetes, hipertension, asma, enfermadad_psiquiatrica, efisema, cancer, epilepcia, otro) VALUES (?,?,?,?,?,?,?,?,?)';
           connection.query(sqlAntF,[antf.cardiopatias,antf.diabetes,antf.hipertension,antf.asma,antf.enfermedad_psiquiatrica,antf.efisema,antf.cancer,antf.epilepcia,antf.otro],(err,antf)=>{
@@ -42,25 +40,25 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
           })
         }
         else{
-          ids.id_antecedentesf = NULL;
+          ids.id_antecedentesf = null;
           return resolve(hisc);
         }
       }).then(async(res2,rej2)=>{
             new Promise(function(resolve, reject) {
               if(JSON.stringify(hisc.antecedentes_p)!='{}')
               {
-                console.log('ANTECEDENTES PERSONALES');
+                // console.log('ANTECEDENTES PERSONALES');
                 let antp = hisc.antecedentes_p;
                 let sqlAntp = 'INSERT INTO prevenirexpres.antecedentes_p (patologias, quirurgicos, traumaticos, gine_menarquia, gine_gravidez, gine_partos, gine_abortos, gine_hijosvivos, gine_planificacion, toxicos_alergicos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
                 connection.query(sqlAntp,[antp.patologias, antp.quirurgicos, antp.traumaticos, antp.gine_menarquia,antp.gine_gravidez, antp.gine_partos, antp.gine_abortos, antp.gine_hijosvivos, antp.gine_planificacion, antp.toxicos_alergicos],(err,rantp)=>{
                   ids.id_antecedentesp = rantp.insertId;
-                  console.log(ids);
+                  // console.log(ids);
                   return (err) ? reject(err): resolve(hisc);
                 });
               }
               else {
-                ids.id_antecedentesp = 'NULL';
-                console.log(ids);
+                ids.id_antecedentesp = null;
+                // console.log(ids);
                 return resolve(hisc);
               }
           }).then(async(res3,rej3)=>{
@@ -71,13 +69,13 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
                     let sqlhabyf = 'INSERT INTO habitosyfactores (cigarrillo, alcohol, estres, humo, polvo, ejercicio, otros) VALUES (?, ?, ?, ?, ?, ?, ?);';
                     connection.query(sqlhabyf,[hyf.cigarrillo, hyf.alcohol, hyf.estres, hyf.humo, hyf.polvo, hyf.ejercicio, hyf.otros],(err,rhyf)=>{
                       ids.id_habitosyfactores = rhyf.insertId;
-                      console.log(ids);
+                      // console.log(ids);
                       return (err) ? reject(err): resolve(hisc);
                     });
                   }
                   else {
-                    ids.id_habitosyfactores = 'NULL';
-                    console.log(ids);
+                    ids.id_habitosyfactores = null;
+                    // console.log(ids);
                     return resolve(hisc);
                   }
                     }).then(async(res4,rej4)=>{
@@ -88,14 +86,14 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
                               let sqlrps = 'INSERT INTO revisionpsistemas (card_resp_desc, vasc_desc, gastro_int_desc, genito_uri_desc, endocrino_desc, osteomuscular_desc, neurologico_dec, pielyfan_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?);';
                               connection.query(sqlrps,[rps.card_resp_desc, rps.vascular_desc, rps.gastro_int_desc, rps.genito_uri_desc, rps.endocrino_desc, rps.osteomuscular_desc, rps.neurologico_desc, rps.pielyfan_desc],(err,rrps)=>{
                                 ids.id_revisionpsistemas = rrps.insertId;
-                                console.log(ids);
+                                // console.log(ids);
                                 return (err) ? reject(err): resolve(hisc);
                               })
                             }
                             else
                             {
-                              ids.id_revisionpsistemas = 'NULL';
-                              console.log(ids);
+                              ids.id_revisionpsistemas = null;
+                              // console.log(ids);
                               return resolve(hisc);
                             }
                           }).then(async(res5,rej5)=>{
@@ -108,13 +106,13 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
                                   let sqlef = 'INSERT INTO examenf (apariencia_g,frecuencia_cardiaca, frecuencia_resp, presion_art, temperatura, talla, peso, cabeza_desc, ojos_desc, oidos_desc, nariz_desc, boca_desc, cuello_desc, torax_ma_desc, pulmones_desc, corazon_desc, abdomen_desc, genitourinario_desc, columna_desc, extremidades_desc, neurologico_desc, pielyfane_desc) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
                                   connection.query(sqlef,[ef.apariencia_g,ef.frecuencia_cardica, ef.frecuencia_resp, ef.presion_art, ef.temperetura, ef.talla, ef.peso, ef.cabeza_desc, ef.ojos_desc, ef.oidos_desc, ef.nariz_desc, ef.boca_desc, ef.cuello_desc, ef.torax_ma_desc, ef.pulmones_desc, ef.corazon_desc,  ef.abdomen_desc, ef.genitourinario_desc, ef.columna_desc, ef.extremidades_desc, ef.neurologico_desc, ef.pielyfane_desc],(err,ref)=>{
                                     ids.id_examenf = ref.insertId;
-                                    console.log(ids);
+                                    // console.log(ids);
                                     return (err) ? reject(err): resolve(hisc);
                                   })
                                 }
                                 else{
-                                  ids.id_examenf = 'NULL';
-                                  console.log(ids);
+                                  ids.id_examenf = null;
+                                  // console.log(ids);
                                   return resolve(hisc);
                                 }
                               }
@@ -132,9 +130,10 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
                                     }
                                   }
                                   else {
-                                    console.log(ids);
+                                    // console.log(ids);
                                     return resolve(hisc);
                                   }
+
                             }).then(async(res6,rej6)=>{
                                 new Promise(function(resolve, reject) {
                                   if(JSON.stringify(hisc.historia_opt)!= '{}')
@@ -145,24 +144,31 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
                                   let opt = hisc.historia_opt;
                                   connection.query(sql+sql2,[opt.lensometriaOd,opt.lensometriaOi,opt.agudezaVisualOd,opt.agudezaVisualOi,opt.visionLejanaOd,opt.visionLejanaOi,opt.visionCercanaOd,opt.visionCercanaOi,opt.adicion,opt.tipoLente,opt.examenExternoOd,opt.examenExternoOi,opt.oftalmologiaOd,opt.oftalmologiaOi,opt.examenMotorOd,opt.examenMotorOi,opt.queratometriaOd,opt.queratometriaOi,opt.refracionOd,opt.refraccionOi,opt.formulaFinalOd,opt.formulaFinalOi,opt.avvlOd,opt.avvlOi,opt.avvpOd,opt.avvpOi,opt.adicionOd,opt.adicionOi,opt.dnpOd,opt.dnpOi,opt.testIshihara,opt.testEstereopsis,opt.diagnosticoInicial,opt.conducta,opt.medicamentos,opt.remision,opt.observaciones,opt.rips, opt.id_usuario,opt.id_servicio],(err,rop)=>{
                                           ids.id_historia_opt = rop.insertId;
-                                          console.log(ids);
+                                          // console.log(ids);
                                           return (err) ? reject(err): resolve(ids);
                                   });
                                 }
                                 else {
-                                    ids.id_historia_opt = 'NULL';
-                                    console.log(ids);
+                                    ids.id_historia_opt = null;
+                                    // console.log(ids);
                                     return resolve(hisc);
-
                                 }
                               }).then(async(res7,rej7)=>{
-                                console.log(res7);
-                                let sqlup = 'UPDATE historia_clinica SET id_historia_opt = ?, id_antecedentesf = ?, id_antecedentesp = ?, id_habitosyfactores = ?, id_revisionpsistemas = ?, id_examenf = ? WHERE id_historiacl` = ?;';
-                                new Promise(function(resolve, reject) {
-                                  connection.query(sqlup,[res7.id_historia_opt,res7.id_antecedentesf,res7.id_antecedentesp,res7.id_habitosyfactores,res7.id_revisionpsistemas,res7.id_examenf],(err,resup)=>{
-                                    console.log(resup);
-                                  })
-                                });
+                                    new Promise(function(resolve, reject) {
+                                      // console.log('res');
+                                      // console.log(res7);
+                                      // console.log('ids');
+                                      //     console.log(ids);
+                                          let sqlup = 'UPDATE historia_clinica SET id_historia_opt = ?, id_antecedentesf = ?, id_antecedentesp = ?, id_habitosyfactores = ?, id_revisionpsistemas = ?, id_examenf = ? WHERE (id_historiacl = ?);';
+                                          let sqlup1= 'UPDATE historia_clinica SET id_historia_opt = ?, id_antecedentesf = ?, id_antecedentesp = ?, id_habitosyfactores = ?, id_revisionpsistemas = ?, id_examenf = ? WHERE id_historiacl = ?;';
+                                          connection.query(sqlup1,[ids.id_historia_opt,ids.id_antecedentesf,ids.id_antecedentesp,ids.id_habitosyfactores,ids.id_revisionpsistemas,ids.id_examenf,ids.id_historiac],(err,resup)=>{
+                                            return (err) ? reject(err): resolve(ids);
+                                          })
+                                    }).then((res8,rej8)=>{
+                                      console.log('ok');
+                                      callback(null,true);
+                                    });
+
                   });
                 });
               });
@@ -176,7 +182,7 @@ histClinModule.nuevaHistoria1 = (hisc,callback) => {
 
 };
 
-histClinModule.nuevaHistoria = (hisc,callback) => {
+histClinModule.nuevaHistoria1 = (hisc,callback) => {
   if(connection)
   {
     // console.log(hisc);
