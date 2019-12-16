@@ -13,6 +13,82 @@ database: config.nombredb
 
 let histClinModule = {};
 
+histClinModule.nuevaHistoria1 = (hisc,callback) => {
+
+ var ids={}
+ let promesa = new Promise(function(resolve, reject) {
+   let inshist = 'INSERT INTO historia_clinica (tipo_consulta, motiv_oconsulta, enfermedades_preex, usuarios_id, id_servicios) VALUES (?, ?, ?, ?, ?);';
+   connection.query(inshist,[hisc.tipo_consulta,hisc.motivo_consulta,hisc.enfermedades_preex,hisc.usuario_id,hisc.id_servicios],(err,histoc)=>{
+     ids.id_historiac = histoc.insertId;
+     console.log(hisc);
+     return (err) ? reject(err) :  resolve(histoc);
+   });
+ });
+
+ promesa.then(async(res1, rej1)=>{
+      new Promise(function(resolve, reject) {
+
+        if(JSON.stringify(hisc.antecedentes_f)!='{}')
+        {
+          console.log('ANTECEDENTES FAMILIARES');
+          let antf = hisc.antecedentes_f;
+          let sqlAntF = 'INSERT INTO antecedentes_f (cardiopatias, diabetes, hipertension, asma, enfermadad_psiquiatrica, efisema, cancer, epilepcia, otro) VALUES (?,?,?,?,?,?,?,?,?)';
+          connection.query(sqlAntF,[antf.cardiopatias,antf.diabetes,antf.hipertension,antf.asma,antf.enfermedad_psiquiatrica,antf.efisema,antf.cancer,antf.epilepcia,antf.otro],(err,antf)=>{
+          ids.id_antecedentesf = antf.insertId;
+          console.log(ids);
+          return (err) ? reject(err): resolve(hisc);
+          })
+        }
+        else{
+          ids.id_antecedentesf = NULL;
+          return resolve(hisc);
+        }
+      }).then(async(res2,rej2)=>{
+            new Promise(function(resolve, reject) {
+              if(JSON.stringify(hisc.antecedentes_p)!='{}')
+              {
+                console.log('ANTECEDENTES PERSONALES');
+                let antp = hisc.antecedentes_p;
+                let sqlAntp = 'INSERT INTO prevenirexpres.antecedentes_p (patologias, quirurgicos, traumaticos, gine_menarquia, gine_gravidez, gine_partos, gine_abortos, gine_hijosvivos, gine_planificacion, toxicos_alergicos) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);';
+                connection.query(sqlAntp,[antp.patologias, antp.quirurgicos, antp.traumaticos, antp.gine_menarquia,antp.gine_gravidez, antp.gine_partos, antp.gine_abortos, antp.gine_hijosvivos, antp.gine_planificacion, antp.toxicos_alergicos],(err,rantp)=>{
+                  ids.id_antecedentesp = rantp.insertId;
+                  console.log(ids);
+                  return (err) ? reject(err): resolve(hisc);
+                });
+              }
+              else {
+                ids.id_antecedentesp = 'NULL';
+                console.log(ids);
+                return resolve(hisc);
+              }
+          }).then(async(res3,rej3)=>{
+                new Promise(function(resolve, reject) {
+                  if(JSON.stringify(hisc.habitosyfactores)!='{}')
+                  {
+                    let hyf = hisc.habitosyfactores
+                    let sqlhabyf = 'INSERT INTO habitosyfactores (cigarrillo, alcohol, estres, humo, polvo, ejercicio, otros) VALUES (?, ?, ?, ?, ?, ?, ?);';
+                    connection.query(sqlhabyf,[hyf.cigarrillo, hyf.alcohol, hyf.estres, hyf.humo, hyf.polvo, hyf.ejercicio, hyf.otros],(err,rhyf)=>{
+                      ids.id_habitosyfactores = rhyf.insertId;
+                      console.log(ids);
+                      return (err) ? reject(err): resolve(hisc);
+                    });
+                  }
+                  else {
+                    ids.id_habitosyfactores = 'NULL';
+                    console.log(ids);
+                    return resolve(hisc);
+                  }
+                }).then(async(res4,rej4)=>{
+                      console.log('res4 probando');
+          });
+        });
+      });
+    });
+
+
+
+};
+
 histClinModule.nuevaHistoria = (hisc,callback) => {
   if(connection)
   {
@@ -153,11 +229,11 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
           console.log(hisc.historia_opt);
             if(JSON.stringify(hisc.historia_opt)!= '{}')
             {
-            var sql = 'INSERT INTO historia_opt (motivoCons, antecedentes, lensometriaOd, lensometriaOi, agudeazaVisualOd, agudeazaVisualOi, visionLejanaOd, visionLejanaOi, visionCercanaOd, visionCercanaOi,adicion, tipoLente, examenExternoOd, examenExternoOi, oftalmologiaOd, oftalmologiaOi, examenMotorOd, examenMotorOi, queratometriaOd, queratometriaOi, refraccionOd, refraccionOi, formulaFinalOd, formulaFinalOi, avvlOd, avvlOi, avvpOd, avvpOi, adicionOd, adicionOi, dnpOd, dnpOi, testIshihara,';
-            var sql2 ='testEstereopsis,diagnosticoInical,conducta,medicamentos,remision,observaciones,tipo_consulta,rips,id_usuario,id_servicios) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            var sql = 'INSERT INTO historia_opt (lensometriaOd, lensometriaOi, agudeazaVisualOd, agudeazaVisualOi, visionLejanaOd, visionLejanaOi, visionCercanaOd, visionCercanaOi,adicion, tipoLente, examenExternoOd, examenExternoOi, oftalmologiaOd, oftalmologiaOi, examenMotorOd, examenMotorOi, queratometriaOd, queratometriaOi, refraccionOd, refraccionOi, formulaFinalOd, formulaFinalOi, avvlOd, avvlOi, avvpOd, avvpOi, adicionOd, adicionOi, dnpOd, dnpOi, testIshihara,';
+            var sql2 ='testEstereopsis,diagnosticoInical,conducta,medicamentos,remision,observaciones,rips,id_usuario,id_servicios) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
             // console.log(sql+sql2);
             let opt = hisc.historia_opt;
-            connection.query(sql+sql2,[opt.motivoConsulta,opt.antecedentes,opt.lensometriaOd,opt.lensometriaOi,opt.agudezaVisualOd,opt.agudezaVisualOi,opt.visionLejanaOd,opt.visionLejanaOi,opt.visionCercanaOd,opt.visionCercanaOi,opt.adicion,opt.tipoLente,opt.examenExternoOd,opt.examenExternoOi,opt.oftalmologiaOd,opt.oftalmologiaOi,opt.examenMotorOd,opt.examenMotorOi,opt.queratometriaOd,opt.queratometriaOi,opt.refracionOd,opt.refraccionOi,opt.formulaFinalOd,opt.formulaFinalOi,opt.avvlOd,opt.avvlOi,opt.avvpOd,opt.avvpOi,opt.adicionOd,opt.adicionOi,opt.dnpOd,opt.dnpOi,opt.testIshihara,opt.testEstereopsis,opt.diagnosticoInicial,opt.conducta,opt.medicamentos,opt.remision,opt.observaciones,opt.tipoConsulta,opt.rips, opt.id_usuario,opt.id_servicio],(err,rop)=>{
+            connection.query(sql+sql2,[opt.lensometriaOd,opt.lensometriaOi,opt.agudezaVisualOd,opt.agudezaVisualOi,opt.visionLejanaOd,opt.visionLejanaOi,opt.visionCercanaOd,opt.visionCercanaOi,opt.adicion,opt.tipoLente,opt.examenExternoOd,opt.examenExternoOi,opt.oftalmologiaOd,opt.oftalmologiaOi,opt.examenMotorOd,opt.examenMotorOi,opt.queratometriaOd,opt.queratometriaOi,opt.refracionOd,opt.refraccionOi,opt.formulaFinalOd,opt.formulaFinalOi,opt.avvlOd,opt.avvlOi,opt.avvpOd,opt.avvpOi,opt.adicionOd,opt.adicionOi,opt.dnpOd,opt.dnpOi,opt.testIshihara,opt.testEstereopsis,opt.diagnosticoInicial,opt.conducta,opt.medicamentos,opt.remision,opt.observaciones,opt.rips, opt.id_usuario,opt.id_servicio],(err,rop)=>{
               if(err){throw err}
               else
               {
@@ -393,8 +469,8 @@ histClinModule.darHistoriaClinicaFin = (idc,callback) =>
                                                   // console.log(resfn);
                                                   callback(null,resfn)
                                                 }).catch((err)=>{console.error(err);})
-                                          })
-                                        })
+                                            });
+                                          });
                                         });
                                       });
                                     });

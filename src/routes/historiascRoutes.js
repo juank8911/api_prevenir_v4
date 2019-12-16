@@ -28,6 +28,16 @@ app.post('/histclinica',(req,res)=>{
 
 });
 
+app.post('/histclinica2',(req,res)=>{
+  let historia = req.body;
+  // console.log(req.body);
+  // console.log(hitsoria);
+  histc.nuevaHistoria1(req.body,(err,resp)=>{
+    res.json(resp);
+  });
+
+});
+
 app.get('/darhistclinica/:idu/:idser',(req,res)=>{
   console.log(req.params);
     histc.darHistClinIdU(req.params,(err,resp)=>{
