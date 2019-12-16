@@ -41,6 +41,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
         }
         else{
           ids.id_antecedentesf = null;
+          console.log(ids);
           return resolve(hisc);
         }
       }).then(async(res2,rej2)=>{
@@ -58,7 +59,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
               }
               else {
                 ids.id_antecedentesp = null;
-                // console.log(ids);
+                console.log(ids);
                 return resolve(hisc);
               }
           }).then(async(res3,rej3)=>{
@@ -75,7 +76,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                   }
                   else {
                     ids.id_habitosyfactores = null;
-                    // console.log(ids);
+                    console.log(ids);
                     return resolve(hisc);
                   }
                     }).then(async(res4,rej4)=>{
@@ -93,7 +94,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                             else
                             {
                               ids.id_revisionpsistemas = null;
-                              // console.log(ids);
+                              console.log(ids);
                               return resolve(hisc);
                             }
                           }).then(async(res5,rej5)=>{
@@ -112,13 +113,14 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                                 }
                                 else{
                                   ids.id_examenf = null;
-                                  // console.log(ids);
+                                  console.log(ids);
                                   return resolve(hisc);
                                 }
                               }
                             }).then(async(res5,rej5)=>{
                               new Promise(function(resolve, reject) {
-                                      if(JSON.stringify(hisc.impresion_diag)!='[]' || hisc.impresion_diag != undefined)
+                                console.log(hisc.impresion_diag);
+                                      if(JSON.stringify(hisc.impresion_diag)!='[]')
                                       {
                                         let j = 0;
                                         let impd = hisc.impresion_diag;
@@ -130,7 +132,8 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                                     }
                                   }
                                   else {
-                                    // console.log(ids);
+                                    console.log(ids);
+                                    ids.impresiondiag = null;
                                     return resolve(hisc);
                                   }
 
