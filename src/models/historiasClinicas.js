@@ -20,7 +20,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
    let inshist = 'INSERT INTO historia_clinica (tipo_consulta, motiv_oconsulta, enfermedades_preex, usuarios_id, id_servicios) VALUES (?, ?, ?, ?, ?);';
    connection.query(inshist,[hisc.tipo_consulta,hisc.motivo_consulta,hisc.enfermedades_preex,hisc.usuario_id,hisc.id_servicios],(err,histoc)=>{
      ids.id_historiac = histoc.insertId;
-     console.log(hisc);
+     // console.log(hisc);
      return (err) ? reject(err) :  resolve(histoc);
    });
  });
@@ -35,13 +35,13 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
           let sqlAntF = 'INSERT INTO antecedentes_f (cardiopatias, diabetes, hipertension, asma, enfermadad_psiquiatrica, efisema, cancer, epilepcia, otro) VALUES (?,?,?,?,?,?,?,?,?)';
           connection.query(sqlAntF,[antf.cardiopatias,antf.diabetes,antf.hipertension,antf.asma,antf.enfermedad_psiquiatrica,antf.efisema,antf.cancer,antf.epilepcia,antf.otro],(err,antf)=>{
           ids.id_antecedentesf = antf.insertId;
-          console.log(ids);
+          // console.log(ids);
           return (err) ? reject(err): resolve(hisc);
           })
         }
         else{
           ids.id_antecedentesf = null;
-          console.log(ids);
+          // console.log(ids);
           return resolve(hisc);
         }
       }).then(async(res2,rej2)=>{
@@ -59,7 +59,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
               }
               else {
                 ids.id_antecedentesp = null;
-                console.log(ids);
+                // console.log(ids);
                 return resolve(hisc);
               }
           }).then(async(res3,rej3)=>{
@@ -76,7 +76,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                   }
                   else {
                     ids.id_habitosyfactores = null;
-                    console.log(ids);
+                    // console.log(ids);
                     return resolve(hisc);
                   }
                     }).then(async(res4,rej4)=>{
@@ -94,7 +94,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                             else
                             {
                               ids.id_revisionpsistemas = null;
-                              console.log(ids);
+                              // console.log(ids);
                               return resolve(hisc);
                             }
                           }).then(async(res5,rej5)=>{
@@ -113,7 +113,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                                 }
                                 else{
                                   ids.id_examenf = null;
-                                  console.log(ids);
+                                  // console.log(ids);
                                   return resolve(hisc);
                                 }
                               }
@@ -132,7 +132,7 @@ histClinModule.nuevaHistoria = (hisc,callback) => {
                                     }
                                   }
                                   else {
-                                    console.log(ids);
+                                    // console.log(ids);
                                     ids.impresiondiag = null;
                                     return resolve(hisc);
                                   }
