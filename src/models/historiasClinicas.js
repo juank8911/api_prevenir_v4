@@ -423,7 +423,7 @@ histClinModule.darHistoriaClinicaFin = (idc,callback) =>
   {
     //PEGAR AQUI
     // console.log(id);
-    var sql = "SELECT historia_clinica.*,CONVERT_TZ(historia_clinica.createdAd,'+00:00','-05:00') as createdAd FROM WHERE historia_clinica.id_historiacl = ?;";
+    var sql = "SELECT historia_clinica.*,CONVERT_TZ(historia_clinica.createdAd,'+00:00','-05:00') as createdAd FROM historia_clinica WHERE historia_clinica.id_historiacl = ?;";
     var sqlaf = 'SELECT * FROM antecedentes_f WHERE id_antecedentesf = ?;';
     var sqlap = 'SELECT * FROM antecedentes_p WHERE id_antecedentesp = ?;';
     var sqlop = 'SELECT * FROM historia_opt WHERE idhistoria_opt = ?';
